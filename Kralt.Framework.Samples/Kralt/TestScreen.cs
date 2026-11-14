@@ -54,7 +54,7 @@ namespace Kralt
                 // Right
                 new(1f, 1f, -1f, color_right, 1f, 1f), // top right
                 new(1f, -1f, -1f, color_right, 1f, 0f), // bottom right
-                new(-1f, -1f, 1f, color_right, 0f, 0f), // bottom left
+                new(1f, -1f, 1f, color_right, 0f, 0f), // bottom left
                 new(1f, 1f, 1f, color_right, 0f, 1f), // top left
 
             ];
@@ -94,7 +94,7 @@ namespace Kralt
             {
                 mesh = new Mesh(unit_cube_v, unit_cube_i),
                 position = new(9f, 0f, 2f),
-                rotation = Quaternion.FromEulerAngles(8f, 0f, -45f)
+                rotation = Quaternion.FromEulerAngles(0f, 0f, 0f)
             };
 
             Append(g2);

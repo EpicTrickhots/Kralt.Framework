@@ -38,6 +38,7 @@ public abstract class Application(string title, int width, int height) :
         };
 
         GenerateApplicationResources();
+        InitializeHelperClasses();
 
         GL.ClearColor((System.Drawing.Color)Color.black);
         GL.Enable(EnableCap.DepthTest);
@@ -88,5 +89,25 @@ public abstract class Application(string title, int width, int height) :
         shader.Use(transformation, viewMatrix, projectionMatrix);
         GL.BindVertexArray(mesh.VertexArrayObject);
         GL.DrawElements(PrimitiveType.Triangles, mesh.indices.Length, DrawElementsType.UnsignedInt, 0);
+    }
+
+    private void InitializeHelperClasses()
+    {
+        Mouse.Initialize(
+            e => CursorState = e switch
+            {
+                CursorLockMode.Locked => CursorState.Grabbed,
+                CursorLockMode.Confined => CursorState.Confined,
+                CursorLockMode.Hidden => CursorState.Hidden,
+                _ => CursorState.Normal
+            },
+            () => CursorState switch 
+            { 
+                CursorState.Grabbed => CursorLockMode.Locked,
+                CursorState.Confined => CursorLockMode.Confined,
+                CursorState.Hidden => CursorLockMode.Hidden,
+                _ => CursorLockMode.None
+            }
+        );
     }
 }

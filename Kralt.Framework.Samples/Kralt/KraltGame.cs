@@ -14,7 +14,7 @@ namespace Kralt
 
         protected override void Start()
         {
-
+            Mouse.lockState = CursorLockMode.Locked;
         }
 
         protected override void Update()

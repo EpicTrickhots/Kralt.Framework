@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kralt.Framework.InputHandling
 {
-    public enum Mouse
+    public enum MouseButton
     {
         /// <summary>
         ///     The first button.

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.GraphicsLibraryFramework;
+﻿using OpenTK.Windowing.GraphicsLibraryFramework;
 using Kralt.Mathematics;
 
 #nullable disable
@@ -88,23 +86,23 @@ public static class Input
     public static bool GetKeyUp(Key key) => keyboard.IsKeyReleased((Keys)key);
 
     /// <summary>
-    /// Returns true for all frames that the user is holding this <see cref="MouseButton"/>
+    /// Returns true for all frames that the user is holding this <see cref="OpenTK.Windowing.GraphicsLibraryFramework.MouseButton"/>
     /// </summary>
     /// <param name="button"></param>
     /// <returns></returns>
-    public static bool GetMouseButton(Mouse button) => mouse.IsButtonDown((MouseButton)button);
+    public static bool GetMouseButton(MouseButton button) => mouse.IsButtonDown((OpenTK.Windowing.GraphicsLibraryFramework.MouseButton)button);
 
     /// <summary>
-    /// Returns true on the frame that the user starts pressing this <see cref="MouseButton"/>
+    /// Returns true on the frame that the user starts pressing this <see cref="OpenTK.Windowing.GraphicsLibraryFramework.MouseButton"/>
     /// </summary>
     /// <param name="button"></param>
     /// <returns></returns>
-    public static bool GetMouseButtonDown(Mouse button) => mouse.IsButtonPressed((MouseButton)button);
+    public static bool GetMouseButtonDown(MouseButton button) => mouse.IsButtonPressed((OpenTK.Windowing.GraphicsLibraryFramework.MouseButton)button);
 
     /// <summary>
-    /// Returns true on the frame that the user stops pressing this <see cref="MouseButton"/>
+    /// Returns true on the frame that the user stops pressing this <see cref="OpenTK.Windowing.GraphicsLibraryFramework.MouseButton"/>
     /// </summary>
     /// <param name="button"></param>
     /// <returns></returns>
-    public static bool GetMouseButtonUp(Mouse button) => mouse.IsButtonReleased((MouseButton)button);
+    public static bool GetMouseButtonUp(MouseButton button) => mouse.IsButtonReleased((OpenTK.Windowing.GraphicsLibraryFramework.MouseButton)button);
 }
