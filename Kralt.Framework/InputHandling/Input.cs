@@ -7,14 +7,7 @@ namespace Kralt.Framework.InputHandling;
 
 public static class Input
 {
-    /// <summary>
-    /// Keyboard state that will be used for querying
-    /// </summary>
     internal static KeyboardState keyboard;
-
-    /// <summary>
-    /// Mouse state that will be used for querying
-    /// </summary>
     internal static MouseState mouse;
 
     /// <summary>
@@ -25,12 +18,12 @@ public static class Input
     /// <summary>
     /// Returns the current movement of the mouse calculated frame-by-frame
     /// </summary>
-    public static Vector2 MouseDelta { get; private set; }
+    public static Vector2 MouseDelta => mouse.Delta;
 
     /// <summary>
     /// Positive when scrolling up, negative when scrolling down
     /// </summary>
-    public static float MouseWheelDelta { get; private set; }
+    public static Vector2 MouseWheelDelta => mouse.ScrollDelta;
 
     /// <summary>
     /// Returns a movement vector created by the arrow keys

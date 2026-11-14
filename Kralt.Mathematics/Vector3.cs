@@ -1694,6 +1694,14 @@ public struct Vector3 : IEquatable<Vector3>, IFormattable
         }
     }
 
+    public static implicit operator OpenTK.Mathematics.Vector3(Vector3 value) => new(value.x, value.y, value.z);
+
+    public static implicit operator Vector3(OpenTK.Mathematics.Vector3 value) => new(value.X, value.Y, value.Z);
+
+    public static implicit operator System.Numerics.Vector3(Vector3 value) => new(value.x, value.y, value.z);
+
+    public static implicit operator Vector3(System.Numerics.Vector3 value) => new(value.X, value.Y, value.Z);
+
     /// <summary>
     /// Adds two instances.
     /// </summary>
@@ -1895,26 +1903,6 @@ public struct Vector3 : IEquatable<Vector3>, IFormattable
     public static implicit operator Vector3((float X, float Y, float Z) values)
     {
         return new Vector3(values.X, values.Y, values.Z);
-    }
-
-    /// <summary>
-    /// Converts <see cref="System.Numerics.Vector3"/> to <see cref="Vector3"/>.
-    /// </summary>
-    /// <param name="vec">The <see cref="System.Numerics.Vector3"/> to cast.</param>
-    [Pure]
-    public static explicit operator Vector3(System.Numerics.Vector3 vec)
-    {
-        return Unsafe.As<System.Numerics.Vector3, Vector3>(ref vec);
-    }
-
-    /// <summary>
-    /// Converts <see cref="Vector3"/> to <see cref="System.Numerics.Vector3"/>.
-    /// </summary>
-    /// <param name="vec">The <see cref="Vector3"/> to cast.</param>
-    [Pure]
-    public static explicit operator System.Numerics.Vector3(Vector3 vec)
-    {
-        return Unsafe.As<Vector3, System.Numerics.Vector3>(ref vec);
     }
 
     /// <inheritdoc/>

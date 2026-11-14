@@ -1134,6 +1134,14 @@ public struct Vector2 : IEquatable<Vector2>, IFormattable
         }
     }
 
+    public static implicit operator OpenTK.Mathematics.Vector2(Vector2 value) => new(value.x, value.y);
+
+    public static implicit operator Vector2(OpenTK.Mathematics.Vector2 value) => new(value.X, value.Y);
+
+    public static implicit operator System.Numerics.Vector2(Vector2 value) => new(value.x, value.y);
+
+    public static implicit operator Vector2(System.Numerics.Vector2 value) => new(value.X, value.Y);
+
     /// <summary>
     /// Adds the specified instances.
     /// </summary>
@@ -1349,26 +1357,6 @@ public struct Vector2 : IEquatable<Vector2>, IFormattable
     public static explicit operator System.Drawing.SizeF(Vector2 vec)
     {
         return new System.Drawing.SizeF(vec.x, vec.y);
-    }
-
-    /// <summary>
-    /// Converts <see cref="System.Numerics.Vector2"/> to <see cref="Vector2"/>.
-    /// </summary>
-    /// <param name="vec">The <see cref="System.Numerics.Vector2"/> to cast.</param>
-    [Pure]
-    public static explicit operator Vector2(System.Numerics.Vector2 vec)
-    {
-        return Unsafe.As<System.Numerics.Vector2, Vector2>(ref vec);
-    }
-
-    /// <summary>
-    /// Converts <see cref="Vector2"/> to <see cref="System.Numerics.Vector2"/>.
-    /// </summary>
-    /// <param name="vec">The <see cref="Vector2"/> to cast.</param>
-    [Pure]
-    public static explicit operator System.Numerics.Vector2(Vector2 vec)
-    {
-        return Unsafe.As<Vector2, System.Numerics.Vector2>(ref vec);
     }
 
     /// <inheritdoc/>

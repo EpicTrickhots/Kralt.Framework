@@ -23,6 +23,33 @@ public struct Quaternion : IEquatable<Quaternion>, IFormattable
     public float w;
 
     /// <summary>
+    /// The X component of this quaternion
+    /// </summary>
+    public float x
+    {
+        readonly get => xyz.x;
+        set => xyz.x = value;
+    }
+
+    /// <summary>
+    /// The Y component of this quaternion
+    /// </summary>
+    public float y
+    {
+        readonly get => xyz.y;
+        set => xyz.y = value;
+    }
+
+    /// <summary>
+    /// The Z component of this quaternion
+    /// </summary>
+    public float z
+    {
+        readonly get => xyz.z;
+        set => xyz.z = value;
+    }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="Quaternion"/> struct.
     /// </summary>
     /// <param name="v">The vector part.</param>
