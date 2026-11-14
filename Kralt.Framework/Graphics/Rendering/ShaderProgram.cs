@@ -1,14 +1,33 @@
-﻿using OpenTK.Graphics.OpenGL4;
-using System;
+﻿using System;
 using System.IO;
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using Kralt.Mathematics;
+using System.Collections.Generic;
 
 namespace Kralt.Framework.Graphics.Rendering
 {
+    /// <summary>
+    /// Internal container for handles that point at GPU bound OpenGL shader programs
+    /// </summary>
     public class ShaderProgram : IDisposable
     {
+        /// <summary>
+        /// GPU handle for this program's vertex shader
+        /// </summary>
         internal int Vertex { get; }
+
+        /// <summary>
+        /// GPU handle for this proram's fragment shader
+        /// </summary>
         internal int Fragment { get; }
+
+        /// <summary>
+        /// GPU handle for this shader program
+        /// </summary>
         internal int Handle { get; }
+
+        internal Dictionary<string, int> uniformLocations;
 
         private bool disposedV = false;
 
@@ -55,14 +74,29 @@ namespace Kralt.Framework.Graphics.Rendering
             GL.DetachShader(Handle, Fragment);
             GL.DeleteShader(Vertex);
             GL.DeleteShader(Fragment);
+
+            GL.GetProgram(Handle, GetProgramParameterName.ActiveUniforms, out int numUniforms);
+
+            uniformLocations = [];
+
+            for(int i = 0; i < numUniforms; i++)
+            {
+                string name = GL.GetActiveUniform(Handle, i, out _, out _);
+                int location = GL.GetUniformLocation(Handle, name);
+                uniformLocations.Add(name, location);
+            }
         }
 
-        public void Use()
+        internal virtual void Use(Matrix4x4 transformation, Matrix4x4 view, Matrix4x4 proj)
         {
             GL.UseProgram(Handle);
+
+            SetMatrix4x4("TR_MESH", transformation);
+            SetMatrix4x4("TR_VIEW", view);
+            SetMatrix4x4("TR_PROJ", proj);
         }
 
-        public static ShaderProgram Compile(string dir, string name)
+        internal static ShaderProgram Compile(string dir, string name)
         {
             string vertexPath = Path.Combine(dir, $"{name}.vert");
             string fragmentPath = Path.Combine(dir, $"{name}.frag");
@@ -71,6 +105,24 @@ namespace Kralt.Framework.Graphics.Rendering
             string fragmentCode = File.ReadAllText(fragmentPath);
 
             return new ShaderProgram(vertexCode, fragmentCode);
+        }
+
+        internal void SetInt(string id, int data)
+        {
+            GL.UseProgram(Handle);
+            GL.Uniform1(uniformLocations[id], data);
+        }
+
+        internal void SetFloat(string id, float data)
+        {
+            GL.UseProgram(Handle);
+            GL.Uniform1(uniformLocations[id], data);
+        }
+
+        internal void SetMatrix4x4(string id, Matrix4 data)
+        {
+            GL.UseProgram(Handle);
+            GL.UniformMatrix4(uniformLocations[id], true, ref data);
         }
 
         protected virtual void Dispose(bool disposing)

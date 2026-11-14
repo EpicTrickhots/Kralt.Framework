@@ -276,12 +276,12 @@ public struct Vector3 : IEquatable<Vector3>, IFormattable
     /// <summary>
     /// Defines an instance with all components set to 0.
     /// </summary>
-    public static readonly Vector3 Zero = new Vector3(0, 0, 0);
+    public static readonly Vector3 zero = new Vector3(0, 0, 0);
 
     /// <summary>
     /// Defines an instance with all components set to 1.
     /// </summary>
-    public static readonly Vector3 One = new Vector3(1, 1, 1);
+    public static readonly Vector3 one = new Vector3(1, 1, 1);
 
     /// <summary>
     /// Defines an instance with all components set to positive infinity.

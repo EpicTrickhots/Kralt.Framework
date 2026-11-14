@@ -3,78 +3,90 @@ using System.IO;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-using OpenTK.Windowing.GraphicsLibraryFramework;
 using Kralt.Framework.Graphics.Rendering;
+using Kralt.Framework.Graphics;
 using Kralt.Mathematics;
+using Kralt.Framework.Screens;
+using Kralt.Framework.Resources;
+using Kralt.Framework.InputHandling;
+using Kralt.Framework.Runtime;
 
 #nullable disable
 
-namespace Kralt.Framework
+namespace Kralt.Framework;
+
+public abstract class Application(string title, int width, int height) : 
+    GameWindow(GameWindowSettings.Default, new NativeWindowSettings() { ClientSize = (width, height), Title = title , Vsync = VSyncMode.On })
 {
-    public abstract class Application(string title, int width, int height) : 
-        GameWindow(GameWindowSettings.Default, new NativeWindowSettings() { ClientSize = (width, height), Title = title })
+    public Screen activeScreen;
+    
+    public static ResourceStore resources;
+    
+    protected virtual void Start() { }
+
+    protected virtual void Update() { }
+
+    protected virtual void GenerateApplicationResources() { }
+
+    protected override void OnLoad()
     {
-        readonly Vector3[] vertices = [
-            new(0.5f,  0.5f, 0.0f),  // top right
-            new(0.5f, -0.5f, 0.0f),  // bottom right
-            new(-0.5f, -0.5f, 0.0f),  // bottom left
-            new(-0.5f,  0.5f, 0.0f)   // top left
-        ];
+        base.OnLoad();
 
-        readonly uint[] indices = [ 0, 1, 3, 1, 2, 3 ];
-
-        ShaderProgram shader;
-        static readonly string shaderDirectory = Path.Combine(AppContext.BaseDirectory, "Graphics", "Shaders");
-        
-        int vertexBufferObject;
-        int elementBufferObject;
-        int vertexArrayObject;
-
-        protected override void OnUpdateFrame(FrameEventArgs e)
+        resources = new ResourceStore
         {
-            base.OnUpdateFrame(e);
-        }
+            fallbackShader = ShaderProgram.Compile(Path.Combine(AppContext.BaseDirectory, "Graphics", "Shaders"), "Fallback")
+        };
 
-        protected override void OnLoad()
-        {
-            base.OnLoad();
+        GenerateApplicationResources();
 
-            shader = ShaderProgram.Compile(shaderDirectory, "Fallback");
+        GL.ClearColor((System.Drawing.Color)Color.black);
+        GL.Enable(EnableCap.DepthTest);
 
-            GL.ClearColor((System.Drawing.Color)Color.black);
+        Start();
+        activeScreen.Initialize();
+    }
 
-            vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * Vector3.SizeInBytes, vertices, BufferUsageHint.StaticDraw);
+    protected override void OnUpdateFrame(FrameEventArgs e)
+    {
+        base.OnUpdateFrame(e);
 
-            vertexArrayObject = GL.GenVertexArray();
-            GL.BindVertexArray(vertexArrayObject);
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
+        Input.keyboard = KeyboardState;
+        Input.mouse = MouseState;
+        Time.UpdateTime((float)e.Time);
 
-            elementBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
-        }
+        Update();
+    }
 
-        protected override void OnRenderFrame(FrameEventArgs args)
-        {
-            base.OnRenderFrame(args);
+    protected override void OnRenderFrame(FrameEventArgs args)
+    {
+        base.OnRenderFrame(args);
 
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            shader.Use();
-            GL.BindVertexArray(vertexArrayObject);
-            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+        activeScreen.Traverse(this);
 
-            SwapBuffers();
-        }
+        SwapBuffers();
+    }
 
-        protected override void OnFramebufferResize(FramebufferResizeEventArgs e)
-        {
-            base.OnFramebufferResize(e);
+    protected override void OnFramebufferResize(FramebufferResizeEventArgs e)
+    {
+        base.OnFramebufferResize(e);
 
-            GL.Viewport(0, 0, e.Width, e.Height);
-        }
+        GL.Viewport(0, 0, e.Width, e.Height);
+    }
+
+    public void Draw(Mesh mesh, ShaderProgram shader, Matrix4x4 transformation)
+    {
+        Matrix4x4 viewMatrix = activeScreen.camera.viewMatrix;
+        Matrix4x4 projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
+            Mathf.DegreesToRadians(activeScreen.camera.fieldOfView),
+            Size.X / (float)Size.Y,
+            activeScreen.camera.nearPlaneDistance,
+            activeScreen.camera.farPlaneDistance
+        );
+
+        shader.Use(transformation, viewMatrix, projectionMatrix);
+        GL.BindVertexArray(mesh.VertexArrayObject);
+        GL.DrawElements(PrimitiveType.Triangles, mesh.indices.Length, DrawElementsType.UnsignedInt, 0);
     }
 }

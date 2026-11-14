@@ -524,7 +524,7 @@ public struct Matrix4x4 : IEquatable<Matrix4x4>, IFormattable
     public readonly Matrix4x4 ClearTranslation()
     {
         var m = this;
-        m.Row3.Xyz = Vector3.Zero;
+        m.Row3.Xyz = Vector3.zero;
         return m;
     }
 
@@ -2051,6 +2051,46 @@ public struct Matrix4x4 : IEquatable<Matrix4x4>, IFormattable
         };
     }
 
+    public static implicit operator OpenTK.Mathematics.Matrix4(Matrix4x4 value)
+    {
+        return new OpenTK.Mathematics.Matrix4(
+            (OpenTK.Mathematics.Vector4)value.Row0,
+            (OpenTK.Mathematics.Vector4)value.Row1,
+            (OpenTK.Mathematics.Vector4)value.Row2,
+            (OpenTK.Mathematics.Vector4)value.Row3
+        );
+    }
+
+    public static implicit operator Matrix4x4(OpenTK.Mathematics.Matrix4 value)
+    {
+        return new Matrix4x4(
+            value.Row0,
+            value.Row1,
+            value.Row2,
+            value.Row3
+        );
+    }
+
+    public static implicit operator System.Numerics.Matrix4x4(Matrix4x4 value)
+    {
+        return new System.Numerics.Matrix4x4(
+            value.Row0.x, value.Row0.y, value.Row0.z, value.Row0.w,
+            value.Row1.x, value.Row1.y, value.Row1.z, value.Row1.w,
+            value.Row2.x, value.Row2.y, value.Row2.z, value.Row2.w,
+            value.Row3.x, value.Row3.y, value.Row3.z, value.Row3.w
+        );
+    }
+
+    public static implicit operator Matrix4x4(System.Numerics.Matrix4x4 value)
+    {
+        return new Matrix4x4(
+            new Vector4(value.M11, value.M12, value.M13, value.M14),
+            new Vector4(value.M21, value.M22, value.M23, value.M24),
+            new Vector4(value.M31, value.M32, value.M33, value.M34),
+            new Vector4(value.M41, value.M42, value.M43, value.M44)
+        );
+    }
+
     /// <summary>
     /// Matrix multiplication.
     /// </summary>
@@ -2121,26 +2161,6 @@ public struct Matrix4x4 : IEquatable<Matrix4x4>, IFormattable
     public static bool operator !=(Matrix4x4 left, Matrix4x4 right)
     {
         return !left.Equals(right);
-    }
-
-    /// <summary>
-    /// Converts <see cref="System.Numerics.Matrix4x4"/> to <see cref="Matrix4x4"/>.
-    /// </summary>
-    /// <param name="mat">The <see cref="Matrix4x4"/> to cast.</param>
-    [Pure]
-    public static explicit operator Matrix4x4(System.Numerics.Matrix4x4 mat)
-    {
-        return Unsafe.As<System.Numerics.Matrix4x4, Matrix4x4>(ref mat);
-    }
-
-    /// <summary>
-    /// Converts <see cref="Matrix4x4"/> to <see cref="System.Numerics.Matrix4x4"/>.
-    /// </summary>
-    /// <param name="mat">The <see cref="Matrix4x4"/> to cast.</param>
-    [Pure]
-    public static explicit operator System.Numerics.Matrix4x4(Matrix4x4 mat)
-    {
-        return Unsafe.As<Matrix4x4, System.Numerics.Matrix4x4>(ref mat);
     }
 
     /// <summary>

@@ -26,7 +26,7 @@ public struct Matrix2x3 : IEquatable<Matrix2x3>, IFormattable
     /// <summary>
     /// The zero matrix.
     /// </summary>
-    public static readonly Matrix2x3 Zero = new Matrix2x3(Vector3.Zero, Vector3.Zero);
+    public static readonly Matrix2x3 Zero = new Matrix2x3(Vector3.zero, Vector3.zero);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Matrix2x3"/> struct.
