@@ -63,22 +63,12 @@ public static class Mathf
     /// <summary>
     /// Defines the constant that you should multiply by to convert Radians to Degrees.
     /// </summary>
-    public const float RadToDeg = 180.0f / MathF.PI;
+    public const float Rad2Deg = 57.29578f;
 
     /// <summary>
     /// Defines the constant that you should multiply by to convert Degrees to Radians.
     /// </summary>
-    public const float DegToRad = MathF.PI / 180.0f;
-
-    /// <summary>
-    /// Defines the constant that you should multiply by to convert Radians to Degrees.
-    /// </summary>
-    public const double RadToDegd = 180.0d / Math.PI;
-
-    /// <summary>
-    /// Defines the constant that you should multiply by to convert Degrees to Radians.
-    /// </summary>
-    public const double DegToRadd = Math.PI / 180.0d;
+    public const float Deg2Rad = 0.017453292f;
 
     /// <summary>
     /// Returns the absolute value of a decimal number.
@@ -142,7 +132,7 @@ public static class Mathf
     /// <param name="radians">The specified angle.</param>
     /// <returns>Sine of the angle. If radians is equal to NaN, NegativeInfinity, or PositiveInfinity, this method returns NaN.</returns>
     [Pure]
-    public static double Sin(double radians) => Math.Sin(radians);
+    public static float Sin(float radians) => (float)Math.Sin(radians);
 
     /// <summary>
     /// Returns the hyperbolic sine of the specified angle.
@@ -150,7 +140,7 @@ public static class Mathf
     /// <param name="radians">The specified angle.</param>
     /// <returns>Hyperbolic sine of the specified angle. If radians is equal to NaN, NegativeInfinity, or PositiveInfinity, this method returns NaN.</returns>
     [Pure]
-    public static double Sinh(double radians) => Math.Sinh(radians);
+    public static float Sinh(float radians) => (float)Math.Sinh(radians);
 
     /// <summary>
     /// Returns the arc sine of the specified angle.
@@ -158,7 +148,7 @@ public static class Mathf
     /// <param name="radians">The specified angle.</param>
     /// <returns>Arc sine of the specified angle. If radians is equal to NaN, NegativeInfinity, or PositiveInfinity, this method returns NaN.</returns>
     [Pure]
-    public static double Asin(double radians) => Math.Asin(radians);
+    public static float Asin(float radians) => (float)Math.Asin(radians);
 
     /// <summary>
     /// Returns the cosine of the specified angle.
@@ -166,7 +156,7 @@ public static class Mathf
     /// <param name="radians">The specified angle.</param>
     /// <returns>Cosine of the angle. If radians is equal to NaN, NegativeInfinity, or PositiveInfinity, this method returns NaN.</returns>
     [Pure]
-    public static double Cos(double radians) => Math.Cos(radians);
+    public static float Cos(float radians) => (float)Math.Cos(radians);
 
     /// <summary>
     /// Returns the hyperbolic cosine of the specified angle.
@@ -174,7 +164,7 @@ public static class Mathf
     /// <param name="radians">The specified angle.</param>
     /// <returns>Hyperbolic cosine of the specified angle. If radians is equal to NaN, NegativeInfinity, or PositiveInfinity, this method returns NaN.</returns>
     [Pure]
-    public static double Cosh(double radians) => Math.Cosh(radians);
+    public static float Cosh(float radians) => (float)Math.Cosh(radians);
 
     /// <summary>
     /// Returns the arc sine of the specified angle.
@@ -182,7 +172,7 @@ public static class Mathf
     /// <param name="radians">The specified angle.</param>
     /// <returns>Arc sine of the specified angle. If radians is equal to NaN, NegativeInfinity, or PositiveInfinity, this method returns NaN.</returns>
     [Pure]
-    public static double Acos(double radians) => Math.Acos(radians);
+    public static float Acos(float radians) => (float)Math.Acos(radians);
 
     /// <summary>
     /// Returns the tangent of the specified angle.
@@ -190,7 +180,7 @@ public static class Mathf
     /// <param name="radians">The specified angle.</param>
     /// <returns>Tangent of the specified angle. If radians is equal to NaN, NegativeInfinity, or PositiveInfinity, this method returns NaN.</returns>
     [Pure]
-    public static double Tan(double radians) => Math.Tan(radians);
+    public static float Tan(float radians) => (float)Math.Tan(radians);
 
     /// <summary>
     /// Returns the hyperbolic tangent of the specified angle.
@@ -198,7 +188,7 @@ public static class Mathf
     /// <param name="radians">The specified angle.</param>
     /// <returns>Hyperbolic tangent of the specified angle. If radians is equal to NaN, NegativeInfinity, or PositiveInfinity, this method returns NaN.</returns>
     [Pure]
-    public static double Tanh(double radians) => Math.Tanh(radians);
+    public static float Tanh(float radians) => (float)Math.Tanh(radians);
 
     /// <summary>
     /// Returns the arc tangent of the specified angle.
@@ -206,7 +196,7 @@ public static class Mathf
     /// <param name="radians">The specified angle.</param>
     /// <returns>Arc tangent of the specified angle. If radians is equal to NaN, NegativeInfinity, or PositiveInfinity, this method returns NaN.</returns>
     [Pure]
-    public static double Atan(double radians) => Math.Atan(radians);
+    public static float Atan(float radians) => (float)Math.Atan(radians);
 
     /// <summary>
     /// Returns the angle whose tangent is the quotient of two specified numbers.
@@ -215,7 +205,7 @@ public static class Mathf
     /// <param name="x">The x coordinate of a point.</param>
     /// <returns>An angle, θ, measured in radians, such that -π ≤ θ ≤ π, and tan(θ) = y / x, where (x, y) is a point in the Cartesian plane.</returns>
     [Pure]
-    public static double Atan2(double y, double x) => Math.Atan2(y, x);
+    public static float Atan2(float y, double x) => (float)Math.Atan2(y, x);
 
     /// <summary>
     /// Produces the full product of two 32-bit numbers.
@@ -232,7 +222,7 @@ public static class Mathf
     /// <param name="n">The number whose square root is to be found.</param>
     /// <returns>The positive square root of n.</returns>
     [Pure]
-    public static double Sqrt(double n) => Math.Sqrt(n);
+    public static float Sqrt(float n) => (float)Math.Sqrt(n);
 
     /// <summary>
     /// Returns a specified number raised to the specified power.
@@ -846,50 +836,6 @@ public static class Mathf
             x = x * (1.5 - (xhalf * x * x)); // Perform left single Newton-Raphson step.
             return x;
         }
-    }
-
-    /// <summary>
-    /// Convert degrees to radians.
-    /// </summary>
-    /// <param name="degrees">An angle in degrees.</param>
-    /// <returns>The angle expressed in radians.</returns>
-    [Pure]
-    public static float DegreesToRadians(float degrees)
-    {
-        return degrees * DegToRad;
-    }
-
-    /// <summary>
-    /// Convert radians to degrees.
-    /// </summary>
-    /// <param name="radians">An angle in radians.</param>
-    /// <returns>The angle expressed in degrees.</returns>
-    [Pure]
-    public static float RadiansToDegrees(float radians)
-    {
-        return radians * RadToDeg;
-    }
-
-    /// <summary>
-    /// Convert degrees to radians.
-    /// </summary>
-    /// <param name="degrees">An angle in degrees.</param>
-    /// <returns>The angle expressed in radians.</returns>
-    [Pure]
-    public static double DegreesToRadians(double degrees)
-    {
-        return degrees * DegToRadd;
-    }
-
-    /// <summary>
-    /// Convert radians to degrees.
-    /// </summary>
-    /// <param name="radians">An angle in radians.</param>
-    /// <returns>The angle expressed in degrees.</returns>
-    [Pure]
-    public static double RadiansToDegrees(double radians)
-    {
-        return radians * RadToDegd;
     }
 
     /// <summary>

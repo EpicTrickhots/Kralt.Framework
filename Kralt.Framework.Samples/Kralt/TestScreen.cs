@@ -17,45 +17,45 @@ namespace Kralt
 
         public override void Initialize()
         {
-            camera.position = Vector3.UnitZ * -5f;
+            camera.position = Vector3.forward * -5f;
 
             Vertex[] unit_cube_v = [
 
                 // Front
-                new(1f, 1f, 1f, color_front, 1f, 1f), // top right
-                new(1f, -1f, 1f, color_front, 1f, 0f), // bottom right
-                new(-1f, -1f, 1f, color_front, 0f, 0f), // bottom left
                 new(-1f, 1f, 1f, color_front, 0f, 1f), // top left
+                new(-1f, -1f, 1f, color_front, 0f, 0f), // bottom left
+                new(1f, -1f, 1f, color_front, 1f, 0f), // bottom right
+                new(1f, 1f, 1f, color_front, 1f, 1f), // top right
 
                 // Back
+                new(1f, 1f, -1f, color_back, 0f, 1f), // top left
+                new(1f, -1f, -1f, color_back, 0f, 0f), // bottom left
+                new(-1f, -1f, -1f, color_back, 1f, 0f), // bottom right
                 new(-1f, 1f, -1f, color_back, 1f, 1f), // top right
-                new(1f, -1f, 1f, color_back, 1f, 0f), // bottom right
-                new(-1f, -1f, 1f, color_back, 0f, 0f), // bottom left
-                new(-1f, 1f, 1f, color_back, 0f, 1f), // top left
 
                 // Top
-                new(1f, 1f, -1f, color_top, 1f, 1f), // top right
-                new(1f, 1f, 1f, color_top, 1f, 0f), // bottom right
-                new(-1f, 1f, 1f, color_top, 0f, 0f), // bottom left
                 new(-1f, 1f, -1f, color_top, 0f, 1f), // top left
+                new(-1f, 1f, 1f, color_top, 0f, 0f), // bottom left
+                new(1f, 1f, 1f, color_top, 1f, 0f), // bottom right
+                new(1f, 1f, -1f, color_top, 1f, 1f), // top right
 
                 // Bottom
-                new(1f, -1f, 1f, color_bottom, 1f, 1f), // top right
-                new(1f, -1f, -1f, color_bottom, 1f, 0f), // bottom right
-                new(-1f, -1f, -1f, color_bottom, 0f, 0f), // bottom left
                 new(-1f, -1f, 1f, color_bottom, 0f, 1f), // top left
+                new(-1f, -1f, -1f, color_bottom, 0f, 0f), // bottom left
+                new(1f, -1f, -1f, color_bottom, 1f, 0f), // bottom right
+                new(1f, -1f, 1f, color_bottom, 1f, 1f), // top right
 
                 // Left
-                new(-1f, 1f, 1f, color_left, 1f, 1f), // top right
-                new(-1f, -1f, 1f, color_left, 1f, 0f), // bottom right
-                new(-1f, -1f, -1f, color_left, 0f, 0f), // bottom left
                 new(-1f, 1f, -1f, color_left, 0f, 1f), // top left
+                new(-1f, -1f, -1f, color_left, 0f, 0f), // bottom left
+                new(-1f, -1f, 1f, color_left, 1f, 0f), // bottom right
+                new(-1f, 1f, 1f, color_left, 1f, 1f), // top right
 
                 // Right
-                new(1f, 1f, -1f, color_right, 1f, 1f), // top right
-                new(1f, -1f, -1f, color_right, 1f, 0f), // bottom right
-                new(1f, -1f, 1f, color_right, 0f, 0f), // bottom left
                 new(1f, 1f, 1f, color_right, 0f, 1f), // top left
+                new(1f, -1f, 1f, color_right, 0f, 0f), // bottom left
+                new(1f, -1f, -1f, color_right, 1f, 0f), // bottom right
+                new(1f, 1f, -1f, color_right, 1f, 1f), // top right
 
             ];
 
@@ -85,7 +85,7 @@ namespace Kralt
             {
                 mesh = new Mesh(unit_cube_v, unit_cube_i),
                 position = Vector3.zero,
-                rotation = Quaternion.FromEulerAngles(22f, 110f, 45f)
+                rotation = Quaternion.Euler(22f, 110f, 45f)
             };
 
             Append(g1);
@@ -94,7 +94,7 @@ namespace Kralt
             {
                 mesh = new Mesh(unit_cube_v, unit_cube_i),
                 position = new(9f, 0f, 2f),
-                rotation = Quaternion.FromEulerAngles(0f, 0f, 0f)
+                rotation = Quaternion.Euler(0f, 0f, 0f)
             };
 
             Append(g2);

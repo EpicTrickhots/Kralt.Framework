@@ -42,6 +42,7 @@ public abstract class Application(string title, int width, int height) :
 
         GL.ClearColor((System.Drawing.Color)Color.black);
         GL.Enable(EnableCap.DepthTest);
+        GL.Enable(EnableCap.CullFace);
 
         Start();
         activeScreen.Initialize();
@@ -80,7 +81,7 @@ public abstract class Application(string title, int width, int height) :
     {
         Matrix4x4 viewMatrix = activeScreen.camera.viewMatrix;
         Matrix4x4 projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
-            Mathf.DegreesToRadians(activeScreen.camera.fieldOfView),
+            activeScreen.camera.fieldOfView * Mathf.Deg2Rad,
             Size.X / (float)Size.Y,
             activeScreen.camera.nearPlaneDistance,
             activeScreen.camera.farPlaneDistance

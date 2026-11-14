@@ -178,7 +178,7 @@ public struct Quaternion : IEquatable<Quaternion>, IFormattable
         {
             // This occurs when the angle is zero.
             // Not a problem: just set an arbitrary normalized axis.
-            result.Xyz = Vector3.UnitX;
+            result.Xyz = Vector3.right;
         }
 
         return result;
@@ -529,7 +529,7 @@ public struct Quaternion : IEquatable<Quaternion>, IFormattable
     /// <param name="roll">The roll (bank), counterclockwise rotation around Z axis.</param>
     /// <returns>The quaternion.</returns>
     [Pure]
-    public static Quaternion FromEulerAngles(float pitch, float yaw, float roll)
+    public static Quaternion Euler(float pitch, float yaw, float roll)
     {
         return new Quaternion(pitch, yaw, roll);
     }

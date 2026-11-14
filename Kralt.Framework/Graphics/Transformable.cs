@@ -10,17 +10,11 @@ namespace Kralt.Framework.Graphics
 
         public Vector3 scale;
 
-        public Vector3 up => Vector3.Normalize(Vector3.Transform(Vector3.UnitY, rotation));
+        public Vector3 up => (rotation * Vector3.up).Normalized();
 
-        public Vector3 down => Vector3.Normalize(Vector3.Transform(-Vector3.UnitY, rotation));
+        public Vector3 forward => (rotation * -Vector3.forward).Normalized();
 
-        public Vector3 forward => Vector3.Normalize(Vector3.Transform(-Vector3.UnitZ, rotation));
-
-        public Vector3 backward => Vector3.Normalize(Vector3.Transform(Vector3.UnitZ, rotation));
-
-        public Vector3 right => Vector3.Normalize(Vector3.Transform(Vector3.UnitX, rotation));
-
-        public Vector3 left => Vector3.Normalize(Vector3.Transform(-Vector3.UnitX, rotation));
+        public Vector3 right => (rotation * Vector3.right).Normalized();
 
         public Matrix4x4 worldMatrix
         {

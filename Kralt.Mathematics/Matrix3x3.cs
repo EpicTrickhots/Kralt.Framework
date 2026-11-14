@@ -31,7 +31,7 @@ public struct Matrix3x3 : IEquatable<Matrix3x3>, IFormattable
     /// <summary>
     /// The identity matrix.
     /// </summary>
-    public static readonly Matrix3x3 Identity = new Matrix3x3(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
+    public static readonly Matrix3x3 Identity = new Matrix3x3(Vector3.right, Vector3.up, Vector3.forward);
 
     /// <summary>
     /// The zero matrix.

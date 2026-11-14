@@ -19,28 +19,35 @@ namespace Kralt
 
         protected override void Update()
         {
+            HandleCameraMovement();
+        }
+
+        float yaw = 0f;
+        float pitch = 0f;
+
+        private void HandleCameraMovement()
+        {
             Vector2 delta = Input.WasdDelta;
 
             float up = Input.GetKey(Key.Space) ? 1f : 0f;
             float down = Input.GetKey(Key.LeftShift) ? 1f : 0f;
 
-            Vector3 movement = activeScreen.camera.right * delta.x + activeScreen.camera.forward * delta.y + activeScreen.camera.up * (up - down);
+            Vector3 movement = activeScreen.camera.right * delta.x + activeScreen.camera.forward * delta.y + Vector3.up * (up - down);
 
             activeScreen.camera.position += movement * Time.deltaTime * 10f;
-        }
 
-        Quaternion ClampRotationAroundAxis(Quaternion q)
-        {
-            q.x /= q.w;
-            q.y /= q.w;
-            q.z /= q.w;
-            q.w = 1.0f;
+            // Mouse look
+            Vector2 mouseDelta = Input.MouseDelta;
+            yaw -= mouseDelta.x * 0.002f;
+            pitch -= mouseDelta.y * 0.002f;
 
-            float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan(q.x);
-            angleX = Mathf.Clamp(angleX, -90.0f, 90.0f);
-            q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
+            float maxPitch = 89.0f * Mathf.Deg2Rad;
+            pitch = Mathf.Clamp(pitch, -maxPitch, maxPitch);
 
-            return q;
+            Quaternion rotationY = Quaternion.FromAxisAngle(Vector3.up, yaw);
+            Quaternion rotationX = Quaternion.FromAxisAngle(Vector3.right, pitch);
+
+            activeScreen.camera.rotation = rotationY * rotationX;
         }
     }
 }

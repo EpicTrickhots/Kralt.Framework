@@ -261,17 +261,17 @@ public struct Vector3 : IEquatable<Vector3>, IFormattable
     /// <summary>
     /// Defines a unit-length Vector3 that points towards the X-axis.
     /// </summary>
-    public static readonly Vector3 UnitX = new Vector3(1, 0, 0);
+    public static readonly Vector3 right = new Vector3(1, 0, 0);
 
     /// <summary>
     /// Defines a unit-length Vector3 that points towards the Y-axis.
     /// </summary>
-    public static readonly Vector3 UnitY = new Vector3(0, 1, 0);
+    public static readonly Vector3 up = new Vector3(0, 1, 0);
 
     /// <summary>
     /// Defines a unit-length Vector3 that points towards the Z-axis.
     /// </summary>
-    public static readonly Vector3 UnitZ = new Vector3(0, 0, 1);
+    public static readonly Vector3 forward = new Vector3(0, 0, 1);
 
     /// <summary>
     /// Defines an instance with all components set to 0.
