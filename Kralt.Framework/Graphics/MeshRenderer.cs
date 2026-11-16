@@ -1,15 +1,13 @@
-﻿using Kralt.Framework.Graphics.Rendering;
-
-namespace Kralt.Framework.Graphics
+﻿namespace Kralt.Framework.Graphics
 {
-    public class MeshRenderer : GameObject
+    public class MeshRenderer : Transformable, IRenderable
     {
         public Mesh? mesh;
-        public ShaderProgram material = Application.resources.fallbackShader;
+        public ShaderProgram? material = Resources.shaders["fallback"];
 
-        public override void OnRender(Application renderer)
+        public void Render(Renderer renderer)
         {
-            if (mesh == null)
+            if (mesh == null || material == null)
                 return;
 
             renderer.Draw(mesh, material, worldMatrix);

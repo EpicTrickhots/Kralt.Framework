@@ -5,26 +5,15 @@ using OpenTK.Mathematics;
 using Kralt.Mathematics;
 using System.Collections.Generic;
 
-namespace Kralt.Framework.Graphics.Rendering
+namespace Kralt.Framework.Graphics
 {
-    /// <summary>
-    /// Internal container for handles that point at GPU bound OpenGL shader programs
-    /// </summary>
+    // TODO: Add shader preprocessor support for #include statements
     public class ShaderProgram : IDisposable
     {
-        /// <summary>
-        /// GPU handle for this program's vertex shader
-        /// </summary>
         internal int Vertex { get; }
 
-        /// <summary>
-        /// GPU handle for this proram's fragment shader
-        /// </summary>
         internal int Fragment { get; }
 
-        /// <summary>
-        /// GPU handle for this shader program
-        /// </summary>
         internal int Handle { get; }
 
         internal Dictionary<string, int> uniformLocations;

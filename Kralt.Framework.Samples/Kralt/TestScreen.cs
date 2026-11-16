@@ -1,11 +1,11 @@
 ﻿using Kralt.Framework.Graphics;
-using Kralt.Framework.Screens;
 using Kralt.Mathematics;
 
 namespace Kralt
 {
-    internal class TestScreen : Screen
+    internal class TestScreen : Scene
     {
+        /*
         readonly Color color_front = new Color(0.203f, 0.431f, 0.509f);
         readonly Color color_back = new Color(0.969f, 0.808f, 0.447f);
 
@@ -14,90 +14,51 @@ namespace Kralt
 
         readonly Color color_right = new Color(0.968f, 0.447f, 0.411f);
         readonly Color color_left = new Color(0.231f, 0.254f, 0.388f);
+        */
+
+        private FirstPersonCamera? camera;
 
         public override void Initialize()
         {
-            camera.position = Vector3.forward * -5f;
+            camera = new FirstPersonCamera();
 
-            Vertex[] unit_cube_v = [
+            Add(camera);
 
-                // Front
-                new(-1f, 1f, 1f, color_front, 0f, 1f), // top left
-                new(-1f, -1f, 1f, color_front, 0f, 0f), // bottom left
-                new(1f, -1f, 1f, color_front, 1f, 0f), // bottom right
-                new(1f, 1f, 1f, color_front, 1f, 1f), // top right
+            Mesh cube = Primatives.Cube;
 
-                // Back
-                new(1f, 1f, -1f, color_back, 0f, 1f), // top left
-                new(1f, -1f, -1f, color_back, 0f, 0f), // bottom left
-                new(-1f, -1f, -1f, color_back, 1f, 0f), // bottom right
-                new(-1f, 1f, -1f, color_back, 1f, 1f), // top right
-
-                // Top
-                new(-1f, 1f, -1f, color_top, 0f, 1f), // top left
-                new(-1f, 1f, 1f, color_top, 0f, 0f), // bottom left
-                new(1f, 1f, 1f, color_top, 1f, 0f), // bottom right
-                new(1f, 1f, -1f, color_top, 1f, 1f), // top right
-
-                // Bottom
-                new(-1f, -1f, 1f, color_bottom, 0f, 1f), // top left
-                new(-1f, -1f, -1f, color_bottom, 0f, 0f), // bottom left
-                new(1f, -1f, -1f, color_bottom, 1f, 0f), // bottom right
-                new(1f, -1f, 1f, color_bottom, 1f, 1f), // top right
-
-                // Left
-                new(-1f, 1f, -1f, color_left, 0f, 1f), // top left
-                new(-1f, -1f, -1f, color_left, 0f, 0f), // bottom left
-                new(-1f, -1f, 1f, color_left, 1f, 0f), // bottom right
-                new(-1f, 1f, 1f, color_left, 1f, 1f), // top right
-
-                // Right
-                new(1f, 1f, 1f, color_right, 0f, 1f), // top left
-                new(1f, -1f, 1f, color_right, 0f, 0f), // bottom left
-                new(1f, -1f, -1f, color_right, 1f, 0f), // bottom right
-                new(1f, 1f, -1f, color_right, 1f, 1f), // top right
-
-            ];
-
-            uint[] unit_cube_i = [
-
-                // Front
-                0, 1, 3, 1, 2, 3,
-
-                // Back
-                4, 5, 7, 5, 6, 7,
-
-                // Top
-                8, 9, 11, 9, 10, 11,
-
-                // Bottom
-                12, 13, 15, 13, 14, 15,
-
-                // Left
-                16, 17, 19, 17, 18, 19,
-
-                // Right
-                20, 21, 23, 21, 22, 23,
-
-            ];
-
-            GameObject g1 = new MeshRenderer
+            Transformable g1 = new MeshRenderer
             {
-                mesh = new Mesh(unit_cube_v, unit_cube_i),
+                mesh = cube,
                 position = Vector3.zero,
                 rotation = Quaternion.Euler(22f, 110f, 45f)
             };
 
-            Append(g1);
+            Add(g1);
 
-            GameObject g2 = new MeshRenderer
+            Transformable g2 = new MeshRenderer
             {
-                mesh = new Mesh(unit_cube_v, unit_cube_i),
+                mesh = cube,
                 position = new(9f, 0f, 2f),
                 rotation = Quaternion.Euler(0f, 0f, 0f)
             };
 
-            Append(g2);
+            Add(g2);
+
+            Transformable g3 = new MeshRenderer
+            {
+                mesh = cube,
+                position = new(-6f, -2f, 8f),
+                rotation = Quaternion.Euler(5f, 70f, 0f)
+            };
+
+            Add(g3);
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            camera?.HandleCameraMovement();
         }
     }
 }

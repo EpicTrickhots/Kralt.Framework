@@ -3,11 +3,8 @@ using System.IO;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-using Kralt.Framework.Graphics.Rendering;
 using Kralt.Framework.Graphics;
 using Kralt.Mathematics;
-using Kralt.Framework.Screens;
-using Kralt.Framework.Resources;
 using Kralt.Framework.InputHandling;
 using Kralt.Framework.Runtime;
 
@@ -16,36 +13,61 @@ using Kralt.Framework.Runtime;
 namespace Kralt.Framework;
 
 public abstract class Application(string title, int width, int height) : 
-    GameWindow(GameWindowSettings.Default, new NativeWindowSettings() { ClientSize = (width, height), Title = title , Vsync = VSyncMode.On })
+    GameWindow(GameWindowSettings.Default, new NativeWindowSettings() { ClientSize = (width, height), Title = title, Vsync = VSyncMode.On })
 {
-    public Screen activeScreen;
-    
-    public static ResourceStore resources;
-    
-    protected virtual void Start() { }
+    public int activeSceneIndex { get; private set; } = 0;
 
-    protected virtual void Update() { }
+    public Scene[] scenes;
+
+    public Scene activeScene => scenes[activeSceneIndex];
+    
+    internal Renderer renderer;
+
+    private float viewportAspect;
+    
+    protected virtual void Start()
+    {
+        activeScene.Start();
+    }
+
+    protected virtual void Update()
+    {
+        activeScene.Update();
+    }
 
     protected virtual void GenerateApplicationResources() { }
+
+    public void Run(int index)
+    {
+        activeSceneIndex = index;
+        Run();
+    }
+
+    // TODO: Clean up currently active scene then safely switch to the new one
+    public void LoadScene(int index)
+    {
+        activeSceneIndex = index;
+        scenes[index].Initialize();
+    }
 
     protected override void OnLoad()
     {
         base.OnLoad();
 
-        resources = new ResourceStore
-        {
-            fallbackShader = ShaderProgram.Compile(Path.Combine(AppContext.BaseDirectory, "Graphics", "Shaders"), "Fallback")
-        };
+        renderer = new Renderer();
+
+        Resources.shaders.Add("fallback", ShaderProgram.Compile(Path.Combine(AppContext.BaseDirectory, "Graphics", "Shaders"), "Fallback"));
 
         GenerateApplicationResources();
         InitializeHelperClasses();
 
+        viewportAspect = Size.X / (float)Size.Y;
         GL.ClearColor((System.Drawing.Color)Color.black);
         GL.Enable(EnableCap.DepthTest);
         GL.Enable(EnableCap.CullFace);
 
+        LoadScene(activeSceneIndex);
         Start();
-        activeScreen.Initialize();
     }
 
     protected override void OnUpdateFrame(FrameEventArgs e)
@@ -62,11 +84,7 @@ public abstract class Application(string title, int width, int height) :
     protected override void OnRenderFrame(FrameEventArgs args)
     {
         base.OnRenderFrame(args);
-
-        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-        activeScreen.Traverse(this);
-
+        renderer.RenderFrame(scenes[activeSceneIndex], viewportAspect);
         SwapBuffers();
     }
 
@@ -75,21 +93,7 @@ public abstract class Application(string title, int width, int height) :
         base.OnFramebufferResize(e);
 
         GL.Viewport(0, 0, e.Width, e.Height);
-    }
-
-    public void Draw(Mesh mesh, ShaderProgram shader, Matrix4x4 transformation)
-    {
-        Matrix4x4 viewMatrix = activeScreen.camera.viewMatrix;
-        Matrix4x4 projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
-            activeScreen.camera.fieldOfView * Mathf.Deg2Rad,
-            Size.X / (float)Size.Y,
-            activeScreen.camera.nearPlaneDistance,
-            activeScreen.camera.farPlaneDistance
-        );
-
-        shader.Use(transformation, viewMatrix, projectionMatrix);
-        GL.BindVertexArray(mesh.VertexArrayObject);
-        GL.DrawElements(PrimitiveType.Triangles, mesh.indices.Length, DrawElementsType.UnsignedInt, 0);
+        viewportAspect = Size.X / (float)Size.Y;
     }
 
     private void InitializeHelperClasses()

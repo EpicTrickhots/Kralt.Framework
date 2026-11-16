@@ -303,7 +303,7 @@ public struct Quaternion : IEquatable<Quaternion>, IFormattable
     /// <summary>
     /// Defines the identity quaternion.
     /// </summary>
-    public static readonly Quaternion Identity = new Quaternion(0, 0, 0, 1);
+    public static readonly Quaternion identity = new Quaternion(0, 0, 0, 1);
 
     /// <summary>
     /// Add two quaternions.
@@ -506,10 +506,10 @@ public struct Quaternion : IEquatable<Quaternion>, IFormattable
     {
         if (axis.LengthSquared == 0.0f)
         {
-            return Identity;
+            return identity;
         }
 
-        var result = Identity;
+        var result = identity;
 
         angle *= 0.5f;
         axis.Normalize();
@@ -662,7 +662,7 @@ public struct Quaternion : IEquatable<Quaternion>, IFormattable
         {
             if (q2.LengthSquared == 0.0f)
             {
-                return Identity;
+                return identity;
             }
 
             return q2;
@@ -712,7 +712,7 @@ public struct Quaternion : IEquatable<Quaternion>, IFormattable
             return Normalize(result);
         }
 
-        return Identity;
+        return identity;
     }
 
     /// <summary>
