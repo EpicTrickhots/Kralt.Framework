@@ -27,9 +27,6 @@ namespace Kralt.Framework.Graphics
         public void Add(Transformable g)
         {
             hierarchy.Add(g);
-
-            if (outputCamera == null && g is Camera c)
-                outputCamera = c;
         }
 
         public abstract void Initialize();

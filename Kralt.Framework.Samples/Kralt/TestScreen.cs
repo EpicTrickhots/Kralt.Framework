@@ -21,37 +21,33 @@ namespace Kralt
         public override void Initialize()
         {
             camera = new FirstPersonCamera();
-
             Add(camera);
+
+            outputCamera = camera[0] as Camera;
+            // outputCamera = camera;
 
             Mesh cube = Primatives.Cube;
 
-            Transformable g1 = new MeshRenderer
+            Add(new MeshRenderer
             {
                 mesh = cube,
                 position = Vector3.zero,
                 rotation = Quaternion.Euler(22f, 110f, 45f)
-            };
+            });
 
-            Add(g1);
-
-            Transformable g2 = new MeshRenderer
+            Add(new MeshRenderer
             {
                 mesh = cube,
-                position = new(9f, 0f, 2f),
+                position = new(0f, 0f, -5f),
                 rotation = Quaternion.Euler(0f, 0f, 0f)
-            };
+            });
 
-            Add(g2);
-
-            Transformable g3 = new MeshRenderer
+            Add(new MeshRenderer
             {
                 mesh = cube,
                 position = new(-6f, -2f, 8f),
                 rotation = Quaternion.Euler(5f, 70f, 0f)
-            };
-
-            Add(g3);
+            });
         }
 
         public override void Update()

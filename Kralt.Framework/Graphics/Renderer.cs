@@ -1,5 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using Kralt.Mathematics;
+using System;
 
 namespace Kralt.Framework.Graphics
 {

@@ -8,6 +8,6 @@ namespace Kralt.Framework.Graphics
         public float nearPlaneDistance = 0.1f;
         public float farPlaneDistance = 100f;
 
-        public Matrix4x4 viewMatrix => localMatrix.Inverted(); // Matrix4x4.LookAt(position, position + forward, up);
+        public Matrix4x4 viewMatrix => worldMatrix.Inverted(); // Matrix4x4.LookAt(position, position + forward, up);
     }
 }
