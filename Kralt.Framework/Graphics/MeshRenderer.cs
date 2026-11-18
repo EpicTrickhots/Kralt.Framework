@@ -1,13 +1,15 @@
-﻿namespace Kralt.Framework.Graphics
+﻿#nullable disable
+
+namespace Kralt.Framework.Graphics
 {
     public class MeshRenderer : Transformable, IRenderable
     {
-        public Mesh? mesh;
-        public ShaderProgram? material = Resources.shaders["fallback"];
+        public Mesh mesh;
+        public Material material;
 
         public void Render(Renderer renderer)
         {
-            if (mesh == null || material == null)
+            if (mesh == null)
                 return;
 
             renderer.Draw(mesh, material, worldMatrix);

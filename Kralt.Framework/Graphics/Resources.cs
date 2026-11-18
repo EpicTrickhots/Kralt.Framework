@@ -9,6 +9,8 @@ namespace Kralt.Framework.Graphics
     {
         public static readonly Dictionary<string, ShaderProgram> shaders = [];
 
+        public static readonly Dictionary<string, Material> materials = [];
+
         public static readonly Dictionary<string, Texture> textures = [];
     }
 }

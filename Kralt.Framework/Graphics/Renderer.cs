@@ -6,7 +6,11 @@ namespace Kralt.Framework.Graphics
 {
     public class Renderer
     {
-        internal const string 
+        internal const string TRANSFORM_MODEL = "TR_MESH";
+
+        internal const string TRANSFORM_VIEW = "TR_VIEW";
+
+        internal const string TRANSFORM_PROJ = "TR_PROJ";
 
         internal void BeginFrame()
         {
@@ -52,9 +56,23 @@ namespace Kralt.Framework.Graphics
                 TraverseRecursive(child);
         }
 
-        public void Draw(Mesh mesh, ShaderProgram shader, Matrix4x4 transformation)
+        public void Draw(Mesh mesh, Material material, Matrix4x4 transformation)
         {
-            shader.Use(transformation, currentCameraViewMatrix, currentCameraProjectionMatrix);
+            if(material == null)
+            {
+                Draw(mesh, Resources.materials["fallback"], transformation);
+                return;
+            }
+
+            material.Apply();
+
+            // This is conditional - not all shaders will need matrix transformations
+            // OpenGL safely returns -1 if a shader does not use this uniform.
+            material.shader.SetMatrix4x4(TRANSFORM_MODEL, transformation);
+            material.shader.SetMatrix4x4(TRANSFORM_VIEW, currentCameraViewMatrix);
+            material.shader.SetMatrix4x4(TRANSFORM_PROJ, currentCameraProjectionMatrix);
+
+            // Bind mesh data and issue draw call
             GL.BindVertexArray(mesh.VertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, mesh.indices.Length, DrawElementsType.UnsignedInt, 0);
         }

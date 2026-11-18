@@ -56,6 +56,7 @@ public abstract class Application(string title, int width, int height) :
         renderer = new Renderer();
 
         Resources.shaders.Add("fallback", ShaderProgram.Compile(Path.Combine(AppContext.BaseDirectory, "Graphics", "Shaders"), "Fallback"));
+        Resources.materials.Add("fallback", new Material(Resources.shaders["fallback"]));
 
         GenerateApplicationResources();
         InitializeHelperClasses();

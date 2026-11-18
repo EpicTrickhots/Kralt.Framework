@@ -20,7 +20,7 @@ namespace Kralt.Framework.Graphics
 
         public int this[string name] => uniformLocations.TryGetValue(name, out int v) ? v : -1;
 
-        private bool disposedV = false;
+        private bool disposedValue = false;
 
         internal ShaderProgram(string vsource, string fsource)
         {
@@ -78,13 +78,9 @@ namespace Kralt.Framework.Graphics
             }
         }
 
-        internal virtual void Use(Matrix4x4 transformation, Matrix4x4 view, Matrix4x4 proj)
+        internal virtual void Use()
         {
             GL.UseProgram(Handle);
-
-            SetMatrix4x4("TR_MESH", transformation);
-            SetMatrix4x4("TR_VIEW", view);
-            SetMatrix4x4("TR_PROJ", proj);
         }
 
         internal static ShaderProgram Compile(string dir, string name)
@@ -98,18 +94,6 @@ namespace Kralt.Framework.Graphics
             return new ShaderProgram(vertexCode, fragmentCode);
         }
 
-        internal void SetInt(string id, int data)
-        {
-            GL.UseProgram(Handle);
-            GL.Uniform1(uniformLocations[id], data);
-        }
-
-        internal void SetFloat(string id, float data)
-        {
-            GL.UseProgram(Handle);
-            GL.Uniform1(uniformLocations[id], data);
-        }
-
         internal void SetMatrix4x4(string id, Matrix4 data)
         {
             GL.UseProgram(Handle);
@@ -118,16 +102,16 @@ namespace Kralt.Framework.Graphics
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedV)
+            if (!disposedValue)
             {
                 GL.DeleteProgram(Handle);
-                disposedV = true;
+                disposedValue = true;
             }
         }
 
         ~ShaderProgram()
         {
-            if (!disposedV)
+            if (!disposedValue)
             {
                 Console.WriteLine("GPU Resource Leak! Did you forget to call Dispose()?");
             }

@@ -82,6 +82,11 @@ public struct Color : IEquatable<Color>, IFormattable
         return new Color(color.R, color.G, color.B, color.A);
     }
 
+    public static implicit operator OpenTK.Mathematics.Color4(Color color)
+    {
+        return new OpenTK.Mathematics.Color4(color.r, color.g, color.b, color.a);
+    }
+
     [Pure]
     public static explicit operator System.Drawing.Color(Color color)
     {

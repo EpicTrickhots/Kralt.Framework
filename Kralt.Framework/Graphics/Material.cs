@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using Kralt.Mathematics;
 
 namespace Kralt.Framework.Graphics
@@ -14,13 +16,39 @@ namespace Kralt.Framework.Graphics
 
         private readonly Dictionary<string, Texture> textures = [];
 
-        public void Use()
+        public void Apply()
         {
-            // shader.Use();
+            shader.Use();
 
             foreach(var (name, value) in properties)
             {
-                
+                int location = shader[name];
+
+                if (location == -1)
+                    continue;
+
+                switch (value)
+                {
+                    case float f:
+                    GL.Uniform1(location, f);
+                    break;
+
+                    case int f:
+                    GL.Uniform1(location, f);
+                    break;
+
+                    case Mathematics.Vector3 f:
+                    GL.Uniform3(location, f);
+                    break;
+
+                    case Color f:
+                    GL.Uniform4(location, f);
+                    break;
+
+                    case Matrix4 f:
+                    GL.UniformMatrix4(location, false, ref f);
+                    break;
+                }
             }
         }
 
