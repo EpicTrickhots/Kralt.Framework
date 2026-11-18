@@ -26,29 +26,26 @@ namespace Kralt
             outputCamera = camera[0] as Camera;
             // outputCamera = camera;
 
-            Mesh cube = Primatives.Cube;
-
+            /*
             Add(new MeshRenderer
             {
-                mesh = cube,
+                mesh = Primatives.Cube,
                 position = Vector3.zero,
                 rotation = Quaternion.Euler(22f, 110f, 45f)
             });
+            */
 
-            Add(new MeshRenderer
-            {
-                mesh = cube,
-                position = new(0f, 0f, -5f),
-                rotation = Quaternion.Euler(0f, 0f, 0f),
-                material = Resources.materials["kralt-grid"]
-            });
-
-            Add(new MeshRenderer
-            {
-                mesh = cube,
-                position = new(-6f, -2f, 8f),
-                rotation = Quaternion.Euler(5f, 70f, 0f)
-            });
+            Add(new KraltObject([
+                new(0, 0, 0),
+                new(1, 0, 0),
+                new(1, 0, 1),
+                new(0, 0, 1),
+                new(-1, 0, 1),
+                new(-1, 0, 0),
+                new(-1, 0, -1),
+                new(0, 0, -1),
+                new(1, 0, -1),
+            ]));
         }
 
         public override void Update()

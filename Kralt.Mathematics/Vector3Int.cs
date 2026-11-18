@@ -148,27 +148,27 @@ public struct Vector3Int : IEquatable<Vector3Int>, IFormattable
     /// <summary>
     /// Defines a unit-length Vector3i that points towards the X-axis.
     /// </summary>
-    public static readonly Vector3Int UnitX = new Vector3Int(1, 0, 0);
+    public static readonly Vector3Int right = new Vector3Int(1, 0, 0);
 
     /// <summary>
     /// Defines a unit-length Vector3i that points towards the Y-axis.
     /// </summary>
-    public static readonly Vector3Int UnitY = new Vector3Int(0, 1, 0);
+    public static readonly Vector3Int up = new Vector3Int(0, 1, 0);
 
     /// <summary>
     /// Defines a unit-length Vector3i that points towards the Z-axis.
     /// </summary>
-    public static readonly Vector3Int UnitZ = new Vector3Int(0, 0, 1);
+    public static readonly Vector3Int forward = new Vector3Int(0, 0, 1);
 
     /// <summary>
     /// Defines an instance with all components set to 0.
     /// </summary>
-    public static readonly Vector3Int Zero = new Vector3Int(0, 0, 0);
+    public static readonly Vector3Int zero = new Vector3Int(0, 0, 0);
 
     /// <summary>
     /// Defines an instance with all components set to 1.
     /// </summary>
-    public static readonly Vector3Int One = new Vector3Int(1, 1, 1);
+    public static readonly Vector3Int one = new Vector3Int(1, 1, 1);
 
     /// <summary>
     /// Defines the size of the Vector3i struct in bytes.
