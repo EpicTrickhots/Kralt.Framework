@@ -36,7 +36,11 @@ namespace Kralt.Framework.Graphics
             GL.EnableVertexAttribArray(1);
 
             // TEXCOORD0
-            GL.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, Vertex.SizeInBytes, 7 * sizeof(float));
+            GL.VertexAttribPointer(2, 4, VertexAttribPointerType.Float, false, Vertex.SizeInBytes, 7 * sizeof(float));
+            GL.EnableVertexAttribArray(2);
+
+            // TEXCOORD1
+            GL.VertexAttribPointer(3, 4, VertexAttribPointerType.Float, false, Vertex.SizeInBytes, 11 * sizeof(float));
             GL.EnableVertexAttribArray(2);
 
             GL.BindVertexArray(0);

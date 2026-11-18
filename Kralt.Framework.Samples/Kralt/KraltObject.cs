@@ -14,8 +14,8 @@ namespace Kralt
     {
         private HashSet<Vector3Int> points = [];
 
-        private Mesh mesh;
-        public Material material;
+        private readonly Mesh mesh;
+        private readonly Material material;
 
         private readonly List<Vertex> vertices = [];
         private readonly List<uint> indices = [];
@@ -36,14 +36,14 @@ namespace Kralt
                     for (int i = 0; i < 4; i++)
                     {
                         Vertex v = face.Vertices[i];
-                        vertices.Add(new(block + v.position, v.color, v.uv0));
+                        vertices.Add(new(block + v.position, Color.white, v.uv0));
                     }
 
                     indices.Add(start + 0);
                     indices.Add(start + 1);
-                    indices.Add(start + 2);
+                    indices.Add(start + 3);
 
-                    indices.Add(start + 0);
+                    indices.Add(start + 1);
                     indices.Add(start + 2);
                     indices.Add(start + 3);
                 }
@@ -65,45 +65,45 @@ namespace Kralt
         [
             new(Vector3Int.right,
             [
-                new Vertex(0.5f, -0.5f, -0.5f, Color.white, 0f, 0f),
-                new Vertex(0.5f, 0.5f, -0.5f, Color.white, 0f, 1f),
-                new Vertex(0.5f, 0.5f, 0.5f, Color.white, 1f, 1f),
-                new Vertex(0.5f, -0.5f, 0.5f, Color.white, 1f, 0f)
+                new Vertex(0.5f, -0.5f, -0.5f, 1f, 0f),
+                new Vertex(0.5f, 0.5f, -0.5f, 1f, 1f),
+                new Vertex(0.5f, 0.5f, 0.5f, 0f, 1f),
+                new Vertex(0.5f, -0.5f, 0.5f, 0f, 0f)
             ]),
             new(-Vector3Int.right,
             [
-                new Vertex(-0.5f, -0.5f, 0.5f, Color.white, 0f, 0f),
-                new Vertex(-0.5f, 0.5f, 0.5f, Color.white, 0f, 1f),
-                new Vertex(-0.5f, 0.5f, -0.5f, Color.white, 1f, 1f),
-                new Vertex(-0.5f, -0.5f, -0.5f, Color.white, 1f, 0f)
+                new Vertex(-0.5f, -0.5f, 0.5f, 1f, 0f),
+                new Vertex(-0.5f, 0.5f, 0.5f, 1f, 1f),
+                new Vertex(-0.5f, 0.5f, -0.5f, 0f, 1f),
+                new Vertex(-0.5f, -0.5f, -0.5f, 0f, 0f)
             ]),
             new(Vector3Int.up,
             [
-                new Vertex(-0.5f, 0.5f, 0.5f, Color.white, 0f, 0f),
-                new Vertex(0.5f, 0.5f, 0.5f, Color.white, 0f, 1f),
-                new Vertex(0.5f, 0.5f, -0.5f, Color.white, 1f, 1f),
-                new Vertex(-0.5f, 0.5f, -0.5f, Color.white, 1f, 0f)
+                new Vertex(-0.5f, 0.5f, 0.5f, 1f, 0f),
+                new Vertex(0.5f, 0.5f, 0.5f, 1f, 1f),
+                new Vertex(0.5f, 0.5f, -0.5f, 0f, 1f),
+                new Vertex(-0.5f, 0.5f, -0.5f, 0f, 0f)
             ]),
             new(-Vector3Int.up,
             [
-                new Vertex(-0.5f, -0.5f, -0.5f, Color.white, 0f, 0f),
-                new Vertex(0.5f, -0.5f, -0.5f, Color.white, 0f, 1f),
-                new Vertex(0.5f, -0.5f, 0.5f, Color.white, 1f, 1f),
-                new Vertex(-0.5f, -0.5f, 0.5f, Color.white, 1f, 0f)
+                new Vertex(-0.5f, -0.5f, -0.5f, 1f, 0f),
+                new Vertex(0.5f, -0.5f, -0.5f, 1f, 1f),
+                new Vertex(0.5f, -0.5f, 0.5f, 0f, 1f),
+                new Vertex(-0.5f, -0.5f, 0.5f, 0f, 0f)
             ]),
             new(Vector3Int.forward,
             [
-                new Vertex(0.5f, -0.5f, 0.5f, Color.white, 0f, 0f),
-                new Vertex(0.5f, 0.5f, 0.5f, Color.white, 0f, 1f),
-                new Vertex(-0.5f, 0.5f, 0.5f, Color.white, 1f, 1f),
-                new Vertex(-0.5f, -0.5f, 0.5f, Color.white, 1f, 0f)
+                new Vertex(0.5f, -0.5f, 0.5f, 1f, 0f),
+                new Vertex(0.5f, 0.5f, 0.5f, 1f, 1f),
+                new Vertex(-0.5f, 0.5f, 0.5f, 0f, 1f),
+                new Vertex(-0.5f, -0.5f, 0.5f, 0f, 0f)
             ]),
             new(-Vector3Int.forward,
             [
-                new Vertex(-0.5f, -0.5f, -0.5f, Color.white, 0f, 0f),
-                new Vertex(-0.5f, 0.5f, -0.5f, Color.white, 0f, 1f),
-                new Vertex(0.5f, 0.5f, -0.5f, Color.white, 1f, 1f),
-                new Vertex(0.5f, -0.5f, -0.5f, Color.white, 1f, 0f)
+                new Vertex(-0.5f, -0.5f, -0.5f, 1f, 0f),
+                new Vertex(-0.5f, 0.5f, -0.5f, 1f, 1f),
+                new Vertex(0.5f, 0.5f, -0.5f, 0f, 1f),
+                new Vertex(0.5f, -0.5f, -0.5f, 0f, 0f)
             ])
         ];
 

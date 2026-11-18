@@ -1,7 +1,8 @@
 #version 330 core
 
 in vec3 color;
-in vec2 uv;
+in vec4 uv0;
+in vec4 uv1;
 
 out vec4 FragColor;
 
