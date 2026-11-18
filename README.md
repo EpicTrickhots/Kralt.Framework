@@ -4,7 +4,7 @@ Kralt.Framework is a C# rendering library built with OpenGL via the [OpenTK](htt
 
 ## Goals for This Project
 
-- Support for high-performance 3D games, as well as light-weight desktop applications without lots of unnecessary engine bloat.
+- Support for high-performance 3D games, as well as light-weight desktop applications with zero unnecessary engine bloat.
 - Full cross-platform functionality for Windows, MacOS, and Linux.
 - Flexbox-based UI system inspired by Unity's [UIToolkit](https://docs.unity3d.com/6000.2/Documentation/Manual/UIElements.html).
     
