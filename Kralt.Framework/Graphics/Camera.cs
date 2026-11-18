@@ -1,4 +1,5 @@
 ﻿using Kralt.Mathematics;
+using System.Runtime.InteropServices;
 
 namespace Kralt.Framework.Graphics
 {

@@ -39,7 +39,8 @@ namespace Kralt
             {
                 mesh = cube,
                 position = new(0f, 0f, -5f),
-                rotation = Quaternion.Euler(0f, 0f, 0f)
+                rotation = Quaternion.Euler(0f, 0f, 0f),
+                material = Resources.materials["kralt-grid"]
             });
 
             Add(new MeshRenderer

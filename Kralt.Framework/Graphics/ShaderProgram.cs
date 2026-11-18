@@ -83,7 +83,7 @@ namespace Kralt.Framework.Graphics
             GL.UseProgram(Handle);
         }
 
-        internal static ShaderProgram Compile(string dir, string name)
+        public static ShaderProgram Load(string dir, string name)
         {
             string vertexPath = Path.Combine(dir, $"{name}.vert");
             string fragmentPath = Path.Combine(dir, $"{name}.frag");

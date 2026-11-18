@@ -9,17 +9,17 @@ namespace Kralt.Framework.Graphics
     {
         internal int Handle { get; }
 
-        internal Texture(int glHandle)
+        internal Texture(int handle)
         {
-            Handle = glHandle;
+            Handle = handle;
         }
 
         public static Texture Load(string path)
         {
-            int texh = GL.GenTexture();
+            int handle = GL.GenTexture();
 
             GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, texh);
+            GL.BindTexture(TextureTarget.Texture2D, handle);
 
             StbImage.stbi_set_flip_vertically_on_load(1);
 
@@ -38,11 +38,12 @@ namespace Kralt.Framework.Graphics
             // OpenGL will automatically switch between mipmaps when an object gets sufficiently far away.
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-            return new Texture(texh);
+            return new Texture(handle);
         }
 
-        public void Use()
+        public void Use(TextureUnit unit)
         {
+            GL.ActiveTexture(unit);
             GL.BindTexture(TextureTarget.Texture2D, Handle);
         }
     }

@@ -5,9 +5,9 @@ using Kralt.Mathematics;
 
 namespace Kralt.Framework.Graphics
 {
-    // Provide 2 dictionaries for shader properties
-    // Add functionality for multiple materials using the same shader
-    // TODO: Remove matrix transformations from shader.Use()
+    // TODO:
+    //  - Remove matrix transformations from shader.Use()
+    //  - Add support for multiple texture target types (Texture3D, Texture2DArray, Cubemap)
     public class Material(ShaderProgram shader)
     {
         public ShaderProgram shader { get; } = shader;
@@ -23,9 +23,7 @@ namespace Kralt.Framework.Graphics
             foreach(var (name, value) in properties)
             {
                 int location = shader[name];
-
-                if (location == -1)
-                    continue;
+                if (location == -1) continue;
 
                 switch (value)
                 {
@@ -50,6 +48,17 @@ namespace Kralt.Framework.Graphics
                     break;
                 }
             }
+
+            int unit = 0;
+            foreach(var (name, texture) in textures)
+            {
+                int location = shader[name];
+                if (location == -1) continue;
+
+                texture.Use(TextureUnit.Texture0 + unit);
+                GL.Uniform1(location, unit);
+                unit++;
+            }
         }
 
         #region Material property setters
@@ -58,7 +67,7 @@ namespace Kralt.Framework.Graphics
 
         public void SetInt(string name, int value) => properties[name] = value;
 
-        public void SetVector(string name, Vector3 value) => properties[name] = value;
+        public void SetVector(string name, Mathematics.Vector3 value) => properties[name] = value;
 
         public void SetColor(string name, Color value) => properties[name] = value;
 
