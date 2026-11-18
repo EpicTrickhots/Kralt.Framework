@@ -11,4 +11,10 @@
     <ProjectReference Include="..\..\Kralt.Framework\Kralt.Framework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="datafiles\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

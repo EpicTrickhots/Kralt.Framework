@@ -6,6 +6,8 @@ namespace Kralt.Framework.Graphics
 {
     public class Renderer
     {
+        internal const string 
+
         internal void BeginFrame()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

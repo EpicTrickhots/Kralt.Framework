@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using Kralt.Mathematics;
-using System.Collections.Generic;
 
 namespace Kralt.Framework.Graphics
 {
@@ -17,6 +17,8 @@ namespace Kralt.Framework.Graphics
         internal int Handle { get; }
 
         internal Dictionary<string, int> uniformLocations;
+
+        public int this[string name] => uniformLocations.TryGetValue(name, out int v) ? v : -1;
 
         private bool disposedV = false;
 
