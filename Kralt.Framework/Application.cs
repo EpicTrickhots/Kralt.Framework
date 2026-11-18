@@ -19,8 +19,6 @@ public abstract class Application(string title, int width, int height) :
     public Scene[] scenes;
 
     public Scene activeScene => scenes[activeSceneIndex];
-    
-    internal Renderer renderer;
 
     private float viewportAspect;
     
@@ -53,8 +51,6 @@ public abstract class Application(string title, int width, int height) :
     {
         base.OnLoad();
 
-        renderer = new Renderer();
-
         Resources.shaders.Add("fallback", ShaderProgram.Load(Path.Combine(AppContext.BaseDirectory, "Graphics", "Shaders"), "Fallback"));
         Resources.materials.Add("fallback", new Material(Resources.shaders["fallback"]));
 
@@ -84,7 +80,7 @@ public abstract class Application(string title, int width, int height) :
     protected override void OnRenderFrame(FrameEventArgs args)
     {
         base.OnRenderFrame(args);
-        renderer.RenderFrame(scenes[activeSceneIndex], viewportAspect);
+        Renderer.RenderFrame(scenes[activeSceneIndex], viewportAspect);
         SwapBuffers();
     }
 

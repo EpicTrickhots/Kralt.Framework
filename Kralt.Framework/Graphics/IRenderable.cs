@@ -8,6 +8,6 @@ namespace Kralt.Framework.Graphics
 {
     public interface IRenderable
     {
-        public void Render(Renderer renderer);
+        public void Render();
     }
 }

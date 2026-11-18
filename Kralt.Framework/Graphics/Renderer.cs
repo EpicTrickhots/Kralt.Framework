@@ -1,10 +1,10 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using System;
+using OpenTK.Graphics.OpenGL4;
 using Kralt.Mathematics;
-using System;
 
 namespace Kralt.Framework.Graphics
 {
-    public class Renderer
+    public static class Renderer
     {
         internal const string TRANSFORM_MODEL = "TR_MESH";
 
@@ -12,20 +12,20 @@ namespace Kralt.Framework.Graphics
 
         internal const string TRANSFORM_PROJ = "TR_PROJ";
 
-        internal void BeginFrame()
+        internal static void BeginFrame()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
 
-        internal void EndFrame()
+        internal static void EndFrame()
         {
 
         }
 
-        Matrix4x4 currentCameraViewMatrix;
-        Matrix4x4 currentCameraProjectionMatrix;
+        private static Matrix4x4 currentCameraViewMatrix;
+        private static Matrix4x4 currentCameraProjectionMatrix;
 
-        internal void RenderFrame(Scene scene, float aspect)
+        internal static void RenderFrame(Scene scene, float aspect)
         {
             BeginFrame();
 
@@ -47,16 +47,16 @@ namespace Kralt.Framework.Graphics
             EndFrame();
         }
 
-        private void TraverseRecursive(Transformable transform)
+        private static void TraverseRecursive(Transformable transform)
         {
             if (transform is IRenderable renderable)
-                renderable.Render(this);
+                renderable.Render();
 
             foreach (Transformable child in transform)
                 TraverseRecursive(child);
         }
 
-        public void Draw(Mesh mesh, Material material, Matrix4x4 transformation)
+        public static void Draw(Mesh mesh, Material material, Matrix4x4 transformation)
         {
             if(material == null)
             {

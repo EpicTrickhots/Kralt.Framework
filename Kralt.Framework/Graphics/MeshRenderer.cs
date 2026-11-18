@@ -7,12 +7,12 @@ namespace Kralt.Framework.Graphics
         public Mesh mesh;
         public Material material;
 
-        public void Render(Renderer renderer)
+        public void Render()
         {
             if (mesh == null)
                 return;
 
-            renderer.Draw(mesh, material, worldMatrix);
+            Renderer.Draw(mesh, material, worldMatrix);
         }
     }
 }
