@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Kralt.Mathematics;
 
-namespace Kralt.Framework.UI
+namespace Kralt.Framework.UI;
+
+public static class UIRenderer
 {
-    public static class UIRenderer
+    public static void RenderDocument(Node document, Vector2 viewport)
     {
-        public static void RenderDocument(UINode document, float aspect)
-        {
 
-        }
     }
 }

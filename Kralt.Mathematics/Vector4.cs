@@ -59,7 +59,7 @@ public struct Vector4 : IEquatable<Vector4>, IFormattable
     /// <summary>
     /// Defines an instance with all components set to 0.
     /// </summary>
-    public static readonly Vector4 Zero = new Vector4(0, 0, 0, 0);
+    public static readonly Vector4 zero = new Vector4(0, 0, 0, 0);
 
     /// <summary>
     /// Defines an instance with all components set to 1.

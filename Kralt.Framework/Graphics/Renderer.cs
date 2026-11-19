@@ -12,23 +12,12 @@ namespace Kralt.Framework.Graphics
 
         internal const string TRANSFORM_PROJ = "TR_PROJ";
 
-        internal static void BeginFrame()
-        {
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-        }
-
-        internal static void EndFrame()
-        {
-
-        }
-
         private static Matrix4x4 currentCameraViewMatrix;
+
         private static Matrix4x4 currentCameraProjectionMatrix;
 
-        internal static void RenderScene(Scene scene, float aspect)
+        public static void RenderScene(Scene scene, float aspect)
         {
-            BeginFrame();
-
             if (scene.outputCamera == null)
                 return;
 
@@ -43,8 +32,6 @@ namespace Kralt.Framework.Graphics
 
             foreach (Transformable transform in scene.hierarchy)
                 TraverseRecursive(transform);
-
-            EndFrame();
         }
 
         private static void TraverseRecursive(Transformable transform)

@@ -46,7 +46,7 @@ public struct Matrix4x4 : IEquatable<Matrix4x4>, IFormattable
     /// <summary>
     /// The zero matrix.
     /// </summary>
-    public static readonly Matrix4x4 Zero = new Matrix4x4(Vector4.Zero, Vector4.Zero, Vector4.Zero, Vector4.Zero);
+    public static readonly Matrix4x4 Zero = new Matrix4x4(Vector4.zero, Vector4.zero, Vector4.zero, Vector4.zero);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Matrix4x4"/> struct.
@@ -562,7 +562,7 @@ public struct Matrix4x4 : IEquatable<Matrix4x4>, IFormattable
     public readonly Matrix4x4 ClearProjection()
     {
         var m = this;
-        m.Column3 = Vector4.Zero;
+        m.Column3 = Vector4.zero;
         return m;
     }
 

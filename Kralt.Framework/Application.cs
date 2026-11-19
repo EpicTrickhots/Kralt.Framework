@@ -6,6 +6,7 @@ using OpenTK.Windowing.Desktop;
 using Kralt.Framework.Graphics;
 using Kralt.Framework.InputHandling;
 using Kralt.Framework.Runtime;
+using Kralt.Mathematics;
 using Kralt.Framework.UI;
 
 namespace Kralt.Framework;
@@ -15,7 +16,7 @@ public abstract class Application(string title, int width, int height) :
 {
     public Scene? activeScene;
 
-    public UINode? activeUIDocument;
+    public Node? activeUIDocument;
 
     private float viewportAspect;
     
@@ -61,8 +62,10 @@ public abstract class Application(string title, int width, int height) :
     {
         base.OnRenderFrame(args);
 
-        if(activeScene != null) Renderer.RenderScene(activeScene, viewportAspect);
-        if (activeUIDocument != null) UIRenderer.RenderDocument(activeUIDocument, viewportAspect);
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+        if (activeScene != null) Renderer.RenderScene(activeScene, viewportAspect);
+        if (activeUIDocument != null) UIRenderer.RenderDocument(activeUIDocument, (Vector2Int)Size);
 
         SwapBuffers();
     }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
 using Kralt.Mathematics;
 
 namespace Kralt.Framework.Graphics
@@ -94,10 +94,10 @@ namespace Kralt.Framework.Graphics
             return new ShaderProgram(vertexCode, fragmentCode);
         }
 
-        internal void SetMatrix4x4(string id, Matrix4 data)
+        internal void SetMatrix4x4(string id, Matrix4x4 data)
         {
             GL.UseProgram(Handle);
-            GL.UniformMatrix4(uniformLocations[id], true, ref data);
+            GL.UniformMatrix4(uniformLocations[id], true, ref Unsafe.As<Matrix4x4, OpenTK.Mathematics.Matrix4>(ref data));
         }
 
         protected virtual void Dispose(bool disposing)

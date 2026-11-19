@@ -568,6 +568,16 @@ public struct Vector2Int : IEquatable<Vector2Int>, IFormattable
         return !(left == right);
     }
 
+    public static explicit operator OpenTK.Mathematics.Vector2i(Vector2Int v)
+    {
+        return new(v.x, v.y);
+    }
+
+    public static explicit operator Vector2Int(OpenTK.Mathematics.Vector2i v)
+    {
+        return new(v.X, v.Y);
+    }
+
     /// <summary>
     /// Converts OpenTK.Vector2i to OpenTK.Vector2.
     /// </summary>
