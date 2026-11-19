@@ -25,7 +25,7 @@ namespace Kralt.Framework.Graphics
         private static Matrix4x4 currentCameraViewMatrix;
         private static Matrix4x4 currentCameraProjectionMatrix;
 
-        internal static void RenderFrame(Scene scene, float aspect)
+        internal static void RenderScene(Scene scene, float aspect)
         {
             BeginFrame();
 

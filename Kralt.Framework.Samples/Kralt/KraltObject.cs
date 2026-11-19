@@ -53,12 +53,12 @@ namespace Kralt
             material = Resources.materials["kralt-grid"];
         }
 
-        public void Render(Renderer renderer)
+        public void Render()
         {
             if (mesh == null)
                 return;
 
-            renderer.Draw(mesh, material, worldMatrix);
+            Renderer.Draw(mesh, material, worldMatrix);
         }
 
         private static readonly FaceData[] faces =

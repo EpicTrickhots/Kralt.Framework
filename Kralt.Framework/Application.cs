@@ -6,46 +6,24 @@ using OpenTK.Windowing.Desktop;
 using Kralt.Framework.Graphics;
 using Kralt.Framework.InputHandling;
 using Kralt.Framework.Runtime;
-
-#nullable disable
+using Kralt.Framework.UI;
 
 namespace Kralt.Framework;
 
 public abstract class Application(string title, int width, int height) : 
     GameWindow(GameWindowSettings.Default, new NativeWindowSettings() { ClientSize = (width, height), Title = title, Vsync = VSyncMode.On })
 {
-    public int activeSceneIndex { get; private set; } = 0;
+    public Scene? activeScene;
 
-    public Scene[] scenes = [];
-
-    public Scene activeScene => scenes[activeSceneIndex];
+    public UINode? activeUIDocument;
 
     private float viewportAspect;
     
-    protected virtual void Start()
-    {
-        activeScene.Start();
-    }
+    protected virtual void Start() { }
 
-    protected virtual void Update()
-    {
-        activeScene.Update();
-    }
+    protected virtual void Update() { }
 
     protected virtual void GenerateApplicationResources() { }
-
-    public void Run(int index)
-    {
-        activeSceneIndex = index;
-        Run();
-    }
-
-    // TODO: Clean up currently active scene then safely switch to the new one
-    public void LoadScene(int index)
-    {
-        activeSceneIndex = index;
-        scenes[index].Initialize();
-    }
 
     protected override void OnLoad()
     {
@@ -62,11 +40,9 @@ public abstract class Application(string title, int width, int height) :
         GL.Enable(EnableCap.DepthTest);
         GL.Enable(EnableCap.CullFace);
 
-        if(scenes.Length != 0)
-        {
-            LoadScene(activeSceneIndex);
-            Start();
-        }
+        activeScene?.Initialize();
+        activeScene?.Start();
+        Start();
     }
 
     protected override void OnUpdateFrame(FrameEventArgs e)
@@ -77,13 +53,17 @@ public abstract class Application(string title, int width, int height) :
         Input.mouse = MouseState;
         Time.UpdateTime((float)e.Time);
 
+        activeScene?.Update();
         Update();
     }
 
     protected override void OnRenderFrame(FrameEventArgs args)
     {
         base.OnRenderFrame(args);
-        Renderer.RenderFrame(scenes[activeSceneIndex], viewportAspect);
+
+        if(activeScene != null) Renderer.RenderScene(activeScene, viewportAspect);
+        if (activeUIDocument != null) UIRenderer.RenderDocument(activeUIDocument, viewportAspect);
+
         SwapBuffers();
     }
 

@@ -8,7 +8,7 @@ namespace Kralt
         {
             using (Application game = new KraltGame())
             {
-                game.Run(0);
+                game.Run();
             }
         }
     }

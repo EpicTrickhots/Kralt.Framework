@@ -3,7 +3,7 @@ using Kralt.Mathematics;
 
 namespace Kralt
 {
-    internal class TestScreen : Scene
+    internal class TestScene : Scene
     {
         /*
         readonly Color color_front = new Color(0.203f, 0.431f, 0.509f);

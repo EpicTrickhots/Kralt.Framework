@@ -12,7 +12,7 @@ namespace Kralt
 
         internal KraltGame() : base("Kralt", 1200, 800)
         {
-            scenes = [ new TestScreen() ];
+            activeScene = new TestScene();
         }
 
         protected override void GenerateApplicationResources()

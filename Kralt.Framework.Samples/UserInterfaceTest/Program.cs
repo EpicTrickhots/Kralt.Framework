@@ -8,7 +8,7 @@ namespace UserInterfaceTest
         {
             using (Application game = new GuiApplication())
             {
-                game.Run(0);
+                game.Run();
             }
         }
     }
