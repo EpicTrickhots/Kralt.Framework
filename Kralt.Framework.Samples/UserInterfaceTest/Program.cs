@@ -1,10 +1,15 @@
-﻿namespace UserInterfaceTest
+﻿using Kralt.Framework;
+
+namespace UserInterfaceTest
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            using (Application game = new GuiApplication())
+            {
+                game.Run(0);
+            }
         }
     }
 }

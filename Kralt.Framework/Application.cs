@@ -16,7 +16,7 @@ public abstract class Application(string title, int width, int height) :
 {
     public int activeSceneIndex { get; private set; } = 0;
 
-    public Scene[] scenes;
+    public Scene[] scenes = [];
 
     public Scene activeScene => scenes[activeSceneIndex];
 
@@ -62,8 +62,11 @@ public abstract class Application(string title, int width, int height) :
         GL.Enable(EnableCap.DepthTest);
         GL.Enable(EnableCap.CullFace);
 
-        LoadScene(activeSceneIndex);
-        Start();
+        if(scenes.Length != 0)
+        {
+            LoadScene(activeSceneIndex);
+            Start();
+        }
     }
 
     protected override void OnUpdateFrame(FrameEventArgs e)
