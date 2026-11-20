@@ -16,7 +16,7 @@ public abstract class Application(string title, int width, int height) :
 {
     public Scene? activeScene;
 
-    public Node? activeUIDocument;
+    public Drawable? activeUIDocument;
 
     private float viewportAspect;
     
@@ -38,7 +38,7 @@ public abstract class Application(string title, int width, int height) :
 
         viewportAspect = Size.X / (float)Size.Y;
         
-        GL.ClearColor(0.5294f, 0.8078f, 0.9216f, 1.0f);
+        GL.ClearColor(Color.black);
         GL.Enable(EnableCap.DepthTest);
         GL.Enable(EnableCap.CullFace);
 
@@ -66,7 +66,7 @@ public abstract class Application(string title, int width, int height) :
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
         if (activeScene != null) Renderer.RenderScene(activeScene, viewportAspect);
-        if (activeUIDocument != null) UIRenderer.RenderDocument(activeUIDocument, (Vector2Int)Size);
+        if (activeUIDocument != null) Renderer.RenderUI(activeUIDocument, (Vector2Int)Size);
 
         SwapBuffers();
     }

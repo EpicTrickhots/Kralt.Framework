@@ -4,7 +4,7 @@ namespace UserInterfaceTest;
 
 internal class GuiApplication : Application
 {
-    public GuiApplication() : base("GUI Test", 1200, 800)
+    public GuiApplication() : base("UI Test", 1200, 800)
     {
 
     }

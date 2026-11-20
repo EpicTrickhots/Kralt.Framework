@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL4;
 using Kralt.Mathematics;
+using Kralt.Framework.UI;
 
 namespace Kralt.Framework.Graphics
 {
@@ -15,6 +16,11 @@ namespace Kralt.Framework.Graphics
         private static Matrix4x4 currentCameraViewMatrix;
 
         private static Matrix4x4 currentCameraProjectionMatrix;
+
+        public static void RenderUI(Drawable root, Vector2Int viewport)
+        {
+
+        }
 
         public static void RenderScene(Scene scene, float aspect)
         {
