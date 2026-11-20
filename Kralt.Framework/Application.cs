@@ -37,6 +37,7 @@ public abstract class Application(string title, int width, int height) :
         InitializeHelperClasses();
 
         viewportAspect = Size.X / (float)Size.Y;
+        
         GL.ClearColor(0.5294f, 0.8078f, 0.9216f, 1.0f);
         GL.Enable(EnableCap.DepthTest);
         GL.Enable(EnableCap.CullFace);
