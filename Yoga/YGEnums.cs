@@ -1,12 +1,3 @@
-// Copyright (c) Meta Platforms, Inc. and affiliates.
-//
-// This source code is licensed under the MIT license found in the
-// LICENSE file in the root directory of this source tree.
-//
-// Original: yoga/YGEnums.h, yoga/YGEnums.cpp
-
-using Facebook.Yoga;
-
 namespace Yoga
 {
     // YG-prefixed enums for C-style public API compatibility.

@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Kralt.Mathematics\Kralt.Mathematics.csproj" />
+    <ProjectReference Include="..\Yoga\Yoga.csproj" />
   </ItemGroup>
 
   <ItemGroup>

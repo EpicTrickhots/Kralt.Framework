@@ -1,4 +1,3 @@
-using Facebook.Yoga;
 using System;
 
 namespace Yoga
@@ -79,15 +78,12 @@ namespace Yoga
 
         public FloatOptional Resolve(float referenceLength)
         {
-            switch (_unit)
+            return _unit switch
             {
-                case Unit.Point:
-                    return _value;
-                case Unit.Percent:
-                    return new FloatOptional(_value.Unwrap() * referenceLength * 0.01f);
-                default:
-                    return FloatOptional.Undefined;
-            }
+                Unit.Point => _value,
+                Unit.Percent => new FloatOptional(_value.Unwrap() * referenceLength * 0.01f),
+                _ => FloatOptional.Undefined,
+            };
         }
 
         public static explicit operator YGValue(StyleLength length)
