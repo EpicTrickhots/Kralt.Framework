@@ -1,5 +1,6 @@
 ﻿using Kralt.Framework.Graphics;
 using Kralt.Framework.InputHandling;
+using Kralt.Framework.Physics;
 using Kralt.Framework.Runtime;
 using Kralt.Mathematics;
 
@@ -12,6 +13,10 @@ namespace Kralt
         private const float MOUSE_SENS_Y = .002f;
 
         private const float MOVE_SPEED = 10f;
+
+        private const float BOUNDS_WIDTH = 1f;
+
+        private const float BOUNDS_HEIGHT = 2f;
 
         Quaternion playerTargetRotation = Quaternion.identity;
         Quaternion cameraTargetRotation = Quaternion.identity;
@@ -61,6 +66,14 @@ namespace Kralt
         private void Move(Vector3 movement)
         {
             localPosition += movement;
+        }
+
+        private AABB GetPlayerWorldBounds()
+        {
+            Vector3 min = localPosition + new Vector3(-BOUNDS_WIDTH * 0.5f, 0f, -BOUNDS_WIDTH * 0.5f);
+            Vector3 max = localPosition + new Vector3(BOUNDS_WIDTH * 0.5f, BOUNDS_HEIGHT, BOUNDS_WIDTH * 0.5f);
+
+            return new AABB(min, max);
         }
 
         private static Quaternion ClampRotationAroundAxis(Quaternion q)
