@@ -16,24 +16,14 @@ namespace Kralt
         readonly Color color_left = new Color(0.231f, 0.254f, 0.388f);
         */
 
-        private FirstPersonCamera? camera;
+        private KraltPlayerController? camera;
 
         public override void Initialize()
         {
-            camera = new FirstPersonCamera();
+            camera = new KraltPlayerController();
             Add(camera);
 
             outputCamera = camera[0] as Camera;
-            // outputCamera = camera;
-
-            /*
-            Add(new MeshRenderer
-            {
-                mesh = Primatives.Cube,
-                position = Vector3.zero,
-                rotation = Quaternion.Euler(22f, 110f, 45f)
-            });
-            */
 
             Add(new KraltObject([
                 new(0, 0, 0),
@@ -46,13 +36,6 @@ namespace Kralt
                 new(0, 0, -1),
                 new(1, 0, -1),
             ]));
-        }
-
-        public override void Update()
-        {
-            base.Update();
-
-            camera?.HandleCameraMovement();
         }
     }
 }

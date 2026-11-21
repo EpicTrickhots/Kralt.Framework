@@ -2,11 +2,10 @@
 using Kralt.Framework.InputHandling;
 using Kralt.Framework.Runtime;
 using Kralt.Mathematics;
-using System;
 
 namespace Kralt
 {
-    internal class FirstPersonCamera : Transformable
+    internal class KraltPlayerController : Transformable
     {
         private const float MOUSE_SENS_X = .002f;
 
@@ -17,15 +16,21 @@ namespace Kralt
         Quaternion playerTargetRotation = Quaternion.identity;
         Quaternion cameraTargetRotation = Quaternion.identity;
 
-        Camera camera;
+        readonly Camera camera;
 
-        public FirstPersonCamera()
+        public KraltPlayerController()
         {
             camera = new Camera();
             Add(camera);
         }
 
-        internal void HandleCameraMovement()
+        public override void Update()
+        {
+            HandleMovement();
+            HandleMouseLook();
+        }
+
+        private void HandleMovement()
         {
             Vector2 moveDelta = Input.WasdDelta;
 
@@ -34,9 +39,11 @@ namespace Kralt
 
             Vector3 movement = right * moveDelta.x + forward * moveDelta.y + Vector3.up * (up - down);
 
-            localPosition += movement * Time.deltaTime * MOVE_SPEED;
+            Move(movement * Time.deltaTime * MOVE_SPEED);
+        }
 
-            // Mouse look
+        private void HandleMouseLook()
+        {
             Vector2 mouseDelta = Input.MouseDelta;
 
             float x = mouseDelta.y * MOUSE_SENS_X;
@@ -49,6 +56,11 @@ namespace Kralt
 
             localRotation = playerTargetRotation;
             camera.localRotation = cameraTargetRotation;
+        }
+
+        private void Move(Vector3 movement)
+        {
+            localPosition += movement;
         }
 
         private static Quaternion ClampRotationAroundAxis(Quaternion q)

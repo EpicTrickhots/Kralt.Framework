@@ -14,9 +14,9 @@ namespace Kralt.Framework;
 public abstract class Application(string title, int width, int height) : 
     GameWindow(GameWindowSettings.Default, new NativeWindowSettings() { ClientSize = (width, height), Title = title, Vsync = VSyncMode.On })
 {
-    public Scene? activeScene { get; private set; }
+    public Scene? activeScene { get; protected set; }
 
-    public Drawable[]? activeUI { get; private set; }
+    public Drawable[]? activeUI { get; protected set; }
 
     private float viewportAspect;
 
@@ -40,6 +40,7 @@ public abstract class Application(string title, int width, int height) :
         InitializeResources();
         InitializeHelperClasses();
         GenerateApplicationResources();
+        UpdateViewportAspect();
 
         UIRenderer.Initialize();
 
@@ -133,13 +134,12 @@ public abstract class Application(string title, int width, int height) :
 
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-        RenderScene();
-        RenderUI();
-        
+        DrawScene();
+        DrawUI();
         SwapBuffers();
     }
 
-    private void RenderScene()
+    private void DrawScene()
     {
         if (activeScene == null)
             return;
@@ -147,7 +147,7 @@ public abstract class Application(string title, int width, int height) :
         Renderer.RenderFrame(activeScene, viewportAspect);
     }
 
-    private void RenderUI()
+    private void DrawUI()
     {
         if (activeUI == null)
             return;
