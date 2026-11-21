@@ -1,4 +1,5 @@
-﻿using Kralt.Framework.Graphics;
+﻿using System.Collections.Generic;
+using Kralt.Framework.Graphics;
 using Kralt.Mathematics;
 
 namespace Kralt
@@ -16,26 +17,35 @@ namespace Kralt
         readonly Color color_left = new Color(0.231f, 0.254f, 0.388f);
         */
 
-        private KraltPlayerController? camera;
+        private KraltPlayerController? player;
 
         public override void Initialize()
         {
-            camera = new KraltPlayerController();
-            Add(camera);
+            player = new KraltPlayerController()
+            {
+                position = Vector3.up * 2f
+            };
 
-            outputCamera = camera[0] as Camera;
+            outputCamera = player[0] as Camera;
 
-            Add(new KraltObject([
-                new(0, 0, 0),
-                new(1, 0, 0),
-                new(1, 0, 1),
-                new(0, 0, 1),
-                new(-1, 0, 1),
-                new(-1, 0, 0),
-                new(-1, 0, -1),
-                new(0, 0, -1),
-                new(1, 0, -1),
-            ]));
+            Transformable kraltObjectContainer = new() {
+                new KraltObject(new()
+                {
+                    new(0, 0, 0),
+                    new(1, 0, 0),
+                    new(1, 0, 1),
+                    new(0, 0, 1),
+                    new(-1, 0, 1),
+                    new(-1, 0, 0),
+                    new(-1, 0, -1),
+                    new(0, 0, -1),
+                    new(1, 0, -1),
+                })
+            };
+
+            player.collisionObjects = kraltObjectContainer;
+            Add(player);
+            Add(kraltObjectContainer);
         }
     }
 }

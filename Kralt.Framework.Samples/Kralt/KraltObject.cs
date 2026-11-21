@@ -10,7 +10,6 @@ namespace Kralt
     public class KraltObject : Transformable, IRenderable
     {
         private HashSet<Vector3Int> points = [];
-
         public HashSet<AABB> collisionAABB = [];
 
         private readonly Mesh mesh;
