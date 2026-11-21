@@ -1,10 +1,7 @@
-﻿using Kralt.Framework.Graphics;
+﻿using System.Collections.Generic;
+using Kralt.Framework.Graphics;
+using Kralt.Framework.Physics;
 using Kralt.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 #nullable disable
 
@@ -13,6 +10,8 @@ namespace Kralt
     public class KraltObject : Transformable, IRenderable
     {
         private HashSet<Vector3Int> points = [];
+
+        public HashSet<AABB> collisionAABB = [];
 
         private readonly Mesh mesh;
         private readonly Material material;
@@ -26,6 +25,8 @@ namespace Kralt
 
             foreach (Vector3Int block in points)
             {
+                int numFacesRendered = 0;
+
                 foreach (FaceData face in faces)
                 {
                     if (points.Contains(block + face.Direction)) // Block exists on this side, skip the face
@@ -46,6 +47,19 @@ namespace Kralt
                     indices.Add(start + 1);
                     indices.Add(start + 2);
                     indices.Add(start + 3);
+
+                    numFacesRendered++;
+                }
+
+                // If zero of the faces for this voxel get rendered, we can skip collision generation
+                if(numFacesRendered != 0)
+                {
+                    // Generate AABB collision for this voxel
+                    Vector3 min = new(block.x - 0.5f, block.y - 0.5f, block.z - 0.5f);
+                    Vector3 max = new(block.x + 0.5f, block.y + 0.5f, block.z + 0.5f);
+
+                    AABB voxelAABB = new(min, max);
+                    collisionAABB.Add(voxelAABB);
                 }
             }
 

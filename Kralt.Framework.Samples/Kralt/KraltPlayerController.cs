@@ -18,6 +18,17 @@ namespace Kralt
 
         private const float BOUNDS_HEIGHT = 2f;
 
+        private AABB PlayerBounds
+        {
+            get
+            {
+                Vector3 min = localPosition + new Vector3(-BOUNDS_WIDTH * 0.5f, 0f, -BOUNDS_WIDTH * 0.5f);
+                Vector3 max = localPosition + new Vector3(BOUNDS_WIDTH * 0.5f, BOUNDS_HEIGHT, BOUNDS_WIDTH * 0.5f);
+
+                return new AABB(min, max);
+            }
+        }
+
         Quaternion playerTargetRotation = Quaternion.identity;
         Quaternion cameraTargetRotation = Quaternion.identity;
 
@@ -65,16 +76,27 @@ namespace Kralt
 
         private void Move(Vector3 movement)
         {
-            localPosition += movement;
+            // localPosition += movement;
+
+            MoveAlongAxis(movement.x, Axis.X);
+            MoveAlongAxis(movement.y, Axis.Y);
+            MoveAlongAxis(movement.z, Axis.Z);
         }
 
-        private AABB GetPlayerWorldBounds()
+        private void MoveAlongAxis(float amt, Axis axis)
         {
-            Vector3 min = localPosition + new Vector3(-BOUNDS_WIDTH * 0.5f, 0f, -BOUNDS_WIDTH * 0.5f);
-            Vector3 max = localPosition + new Vector3(BOUNDS_WIDTH * 0.5f, BOUNDS_HEIGHT, BOUNDS_WIDTH * 0.5f);
+            if (amt == 0f)
+                return;
 
-            return new AABB(min, max);
+            Vector3 movement = Vector3.zero;
+            movement[(int)axis] = amt;
+
+            localPosition += movement;
+
+            AABB bounds = PlayerBounds;
         }
+
+        
 
         private static Quaternion ClampRotationAroundAxis(Quaternion q)
         {
