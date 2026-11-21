@@ -43,9 +43,6 @@ public abstract class Application(string title, int width, int height) :
 
         UIRenderer.Initialize();
 
-        activeScene?.Initialize();
-        activeScene?.Start();
-
         Start();
         InitializeActiveScene();
     }
@@ -102,7 +99,7 @@ public abstract class Application(string title, int width, int height) :
     private void InitializeActiveScene()
     {
         activeScene?.Initialize();
-        activeScene?.Start();
+        activeScene?.Start_Internal();
     }
 
     #endregion
@@ -116,7 +113,7 @@ public abstract class Application(string title, int width, int height) :
         UpdateUserInput();
         Time.UpdateTime((float)e.Time);
 
-        activeScene?.Update();
+        activeScene?.Update_Internal();
         Update();
     }
 

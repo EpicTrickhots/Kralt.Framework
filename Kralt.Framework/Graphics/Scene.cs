@@ -8,16 +8,20 @@ namespace Kralt.Framework.Graphics
 
         internal readonly List<Transformable> hierarchy = [];
 
-        public virtual void Start()
+        internal void Start_Internal()
         {
+            Start();
+
             foreach (Transformable g in hierarchy)
             {
                 g.Start();
             }
         }
 
-        public virtual void Update()
+        internal void Update_Internal()
         {
+            Update();
+
             foreach (Transformable g in hierarchy)
             {
                 g.Update();
@@ -28,6 +32,10 @@ namespace Kralt.Framework.Graphics
         {
             hierarchy.Add(g);
         }
+
+        public virtual void Start() { }
+
+        public virtual void Update() { }
 
         public abstract void Initialize();
     }
