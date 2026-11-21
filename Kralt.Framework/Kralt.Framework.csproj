@@ -14,13 +14,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Kralt.Mathematics\Kralt.Mathematics.csproj" />
-    <ProjectReference Include="..\Yoga\Yoga.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Graphics\Shaders\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Graphics\Shaders\UI\" />
   </ItemGroup>
 
 </Project>

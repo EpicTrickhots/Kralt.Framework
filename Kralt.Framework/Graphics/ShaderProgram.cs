@@ -100,6 +100,12 @@ namespace Kralt.Framework.Graphics
             GL.UniformMatrix4(uniformLocations[id], true, ref Unsafe.As<Matrix4x4, OpenTK.Mathematics.Matrix4>(ref data));
         }
 
+        internal void SetVec2(string id, Vector2 data)
+        {
+            GL.UseProgram(Handle);
+            GL.Uniform2(uniformLocations[id], data);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

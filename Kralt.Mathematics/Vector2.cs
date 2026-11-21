@@ -237,7 +237,7 @@ public struct Vector2 : IEquatable<Vector2>, IFormattable
     /// <summary>
     /// Defines an instance with all components set to 0.
     /// </summary>
-    public static readonly Vector2 Zero = new Vector2(0, 0);
+    public static readonly Vector2 zero = new Vector2(0, 0);
 
     /// <summary>
     /// Defines an instance with all components set to 1.

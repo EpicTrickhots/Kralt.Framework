@@ -5,13 +5,31 @@ using System.Collections.Generic;
 
 namespace Kralt.Framework.UI;
 
-public class Drawable : IEnumerable<Drawable>
+public class Drawable // : IEnumerable<Drawable>
 {
+    public Vector2 position;
+
+    public Vector2 size;
+
+    public Color color;
+
+    /*
+    
+    public Rect? layout { get; internal set; }
+
     private readonly List<Drawable> children = [];
 
     public Drawable? parent { get; private set; }
 
-    public Rect layout { get; internal set; }
+    public Drawable this[int i] => children[i];
+
+    public IEnumerator<Drawable> GetEnumerator()
+    {
+        foreach (Drawable transform in children)
+            yield return transform;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     public void Add(Drawable child)
     {
@@ -38,13 +56,5 @@ public class Drawable : IEnumerable<Drawable>
             child.parent = null;
     }
 
-    public Drawable this[int i] => children[i];
-
-    public IEnumerator<Drawable> GetEnumerator()
-    {
-        foreach (Drawable transform in children)
-            yield return transform;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    */
 }

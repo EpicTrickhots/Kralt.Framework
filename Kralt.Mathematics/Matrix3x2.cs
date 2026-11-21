@@ -31,7 +31,7 @@ public struct Matrix3x2 : IEquatable<Matrix3x2>, IFormattable
     /// <summary>
     /// The zero matrix.
     /// </summary>
-    public static readonly Matrix3x2 Zero = new Matrix3x2(Vector2.Zero, Vector2.Zero, Vector2.Zero);
+    public static readonly Matrix3x2 Zero = new Matrix3x2(Vector2.zero, Vector2.zero, Vector2.zero);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Matrix3x2"/> struct.

@@ -6,77 +6,77 @@ using OpenTK.Windowing.Desktop;
 using Kralt.Framework.Graphics;
 using Kralt.Framework.InputHandling;
 using Kralt.Framework.Runtime;
-using Kralt.Mathematics;
 using Kralt.Framework.UI;
+using Kralt.Mathematics;
 
 namespace Kralt.Framework;
 
 public abstract class Application(string title, int width, int height) : 
     GameWindow(GameWindowSettings.Default, new NativeWindowSettings() { ClientSize = (width, height), Title = title, Vsync = VSyncMode.On })
 {
-    public Scene? activeScene;
+    public Scene? activeScene { get; private set; }
 
-    public Drawable? activeUIDocument;
+    public Drawable[]? activeUI { get; private set; }
 
     private float viewportAspect;
-    
+
+    #region Application life cycle
+
     protected virtual void Start() { }
 
     protected virtual void Update() { }
 
     protected virtual void GenerateApplicationResources() { }
 
+    #endregion
+
+    #region Initialization
+
     protected override void OnLoad()
     {
         base.OnLoad();
 
-        Resources.shaders.Add("fallback", ShaderProgram.Load(Path.Combine(AppContext.BaseDirectory, "Graphics", "Shaders"), "Fallback"));
-        Resources.materials.Add("fallback", new Material(Resources.shaders["fallback"]));
-
-        GenerateApplicationResources();
+        InitializeGraphics();
+        InitializeResources();
         InitializeHelperClasses();
+        GenerateApplicationResources();
 
-        viewportAspect = Size.X / (float)Size.Y;
-        
-        GL.ClearColor(Color.black);
-        GL.Enable(EnableCap.DepthTest);
-        GL.Enable(EnableCap.CullFace);
+        UIRenderer.Initialize();
 
         activeScene?.Initialize();
         activeScene?.Start();
+
         Start();
+        InitializeActiveScene();
     }
 
-    protected override void OnUpdateFrame(FrameEventArgs e)
+    private void InitializeGraphics()
     {
-        base.OnUpdateFrame(e);
-
-        Input.keyboard = KeyboardState;
-        Input.mouse = MouseState;
-        Time.UpdateTime((float)e.Time);
-
-        activeScene?.Update();
-        Update();
+        GL.Viewport(0, 0, FramebufferSize.X, FramebufferSize.Y);
+        GL.ClearColor(Color.black);
+        GL.Enable(EnableCap.DepthTest);
+        GL.Enable(EnableCap.CullFace);
     }
 
-    protected override void OnRenderFrame(FrameEventArgs args)
+    private void InitializeResources()
     {
-        base.OnRenderFrame(args);
+        // Fallback shader (unlit pink)
+        Resources.shaders.Add(
+            "fallback", 
+            ShaderProgram.Load(Path.Combine(AppContext.BaseDirectory, @"Graphics\Shaders"), "fallback"));
 
-        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        Resources.materials.Add(
+            "fallback", 
+            new(Resources.shaders["fallback"]));
 
-        if (activeScene != null) Renderer.RenderScene(activeScene, viewportAspect);
-        if (activeUIDocument != null) Renderer.RenderUI(activeUIDocument, (Vector2Int)Size);
+        // Default UI shader
+        Resources.shaders.Add(
+            "ui-default", 
+            ShaderProgram.Load(Path.Combine(AppContext.BaseDirectory, @"Graphics\Shaders\UI"), "ui-default"));
 
-        SwapBuffers();
-    }
-
-    protected override void OnFramebufferResize(FramebufferResizeEventArgs e)
-    {
-        base.OnFramebufferResize(e);
-
-        GL.Viewport(0, 0, e.Width, e.Height);
-        viewportAspect = Size.X / (float)Size.Y;
+        Resources.materials.Add(
+            "ui-default", 
+            new(Resources.shaders["ui-default"]));
     }
 
     private void InitializeHelperClasses()
@@ -89,8 +89,8 @@ public abstract class Application(string title, int width, int height) :
                 CursorLockMode.Hidden => CursorState.Hidden,
                 _ => CursorState.Normal
             },
-            () => CursorState switch 
-            { 
+            () => CursorState switch
+            {
                 CursorState.Grabbed => CursorLockMode.Locked,
                 CursorState.Confined => CursorLockMode.Confined,
                 CursorState.Hidden => CursorLockMode.Hidden,
@@ -98,4 +98,81 @@ public abstract class Application(string title, int width, int height) :
             }
         );
     }
+
+    private void InitializeActiveScene()
+    {
+        activeScene?.Initialize();
+        activeScene?.Start();
+    }
+
+    #endregion
+
+    #region Update
+
+    protected override void OnUpdateFrame(FrameEventArgs e)
+    {
+        base.OnUpdateFrame(e);
+
+        UpdateUserInput();
+        Time.UpdateTime((float)e.Time);
+
+        activeScene?.Update();
+        Update();
+    }
+
+    private void UpdateUserInput()
+    {
+        Input.keyboard = KeyboardState;
+        Input.mouse = MouseState;
+    }
+
+    #endregion
+
+    #region Render Loop
+
+    protected override void OnRenderFrame(FrameEventArgs args)
+    {
+        base.OnRenderFrame(args);
+
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+        RenderScene();
+        RenderUI();
+        
+        SwapBuffers();
+    }
+
+    private void RenderScene()
+    {
+        if (activeScene == null)
+            return;
+        
+        Renderer.RenderFrame(activeScene, viewportAspect);
+    }
+
+    private void RenderUI()
+    {
+        if (activeUI == null)
+            return;
+        
+        UIRenderer.RenderFrame(activeUI, (Vector2Int)Size);
+    }
+
+    #endregion
+
+    #region Window Events
+
+    protected override void OnFramebufferResize(FramebufferResizeEventArgs e)
+    {
+        base.OnFramebufferResize(e);
+        GL.Viewport(0, 0, e.Width, e.Height);
+        UpdateViewportAspect();
+    }
+
+    private void UpdateViewportAspect()
+    {
+        viewportAspect = FramebufferSize.Y > 0 ? FramebufferSize.X / (float)FramebufferSize.Y : 1f;
+    }
+
+    #endregion
 }
