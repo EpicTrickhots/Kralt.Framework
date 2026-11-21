@@ -5,21 +5,26 @@ using Kralt.Framework.Physics;
 using Kralt.Framework.Runtime;
 using Kralt.Mathematics;
 
+
 namespace Kralt;
 
 internal class KraltPlayerController : Transformable
 {
+    private readonly bool isDebug = true;
+
     private const float MOUSE_SENS_X = .002f;
 
     private const float MOUSE_SENS_Y = .002f;
 
     private const float MOVE_SPEED = 20f;
 
+    private const float MOVE_SPEED_DEBUG = 10f;
+
     private const float BOUNDS_RADIUS = 0.5f;
 
     private const float BOUNDS_HEIGHT = 2f;
 
-    // Slope limit = 45 degf
+    private const float SLOPE_LIMIT = 45f;
 
     private const float GRAVITY = -9.8f;
 
@@ -45,7 +50,7 @@ internal class KraltPlayerController : Transformable
     Quaternion playerTargetRotation;
     Quaternion cameraTargetRotation;
 
-    readonly Camera camera;
+    private Camera camera;
     public Transformable? collisionObjects;
 
     public KraltPlayerController()
@@ -63,6 +68,13 @@ internal class KraltPlayerController : Transformable
 
     public override void Update()
     {
+        if (isDebug)
+        {
+            HandleDebugMovement();
+            HandleMouseLook();
+            return;
+        }
+
         HandleMovement();
         HandleJump();
         HandleMouseLook();
@@ -75,8 +87,19 @@ internal class KraltPlayerController : Transformable
 
         Vector3 movement = right * moveDelta.x + forward * moveDelta.y;
 
-        if(movement != Vector3.zero)
+        if (movement != Vector3.zero)
             Move(movement * Time.deltaTime * MOVE_SPEED);
+    }
+
+    private void HandleDebugMovement()
+    {
+        Vector2 moveDelta = Input.WasdDelta;
+
+        float u = Input.GetKey(Key.Space) ? 1f : 0f;
+        float d = Input.GetKey(Key.LeftShift) ? 1f : 0f;
+
+        Vector3 movement = right * moveDelta.x + forward * moveDelta.y + Vector3.up * (u - d);
+        localPosition += movement * Time.deltaTime * MOVE_SPEED_DEBUG;
     }
 
     private void HandleJump()
@@ -127,12 +150,12 @@ internal class KraltPlayerController : Transformable
 
         AABB playerBounds = PlayerBounds;
 
-        foreach(Transformable t in collisionObjects)
+        foreach (Transformable t in collisionObjects)
         {
             if (t is not KraltObject kr)
                 continue;
 
-            foreach(AABB collision in kr.collisionAABB)
+            foreach (AABB collision in kr.collisionAABB)
             {
                 if (!playerBounds.Intersects(collision))
                     continue;
@@ -140,8 +163,8 @@ internal class KraltPlayerController : Transformable
                 switch (axis)
                 {
                     case Axis.X:
-                    localPosition.x = amt > 0f ? 
-                        collision.min.x - BOUNDS_RADIUS : 
+                    localPosition.x = amt > 0f ?
+                        collision.min.x - BOUNDS_RADIUS :
                         collision.max.x + BOUNDS_RADIUS;
                     return CollisionFlags.Sides;
 

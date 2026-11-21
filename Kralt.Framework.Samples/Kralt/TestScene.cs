@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using Kralt.Framework.Graphics;
 using Kralt.Mathematics;
 
@@ -23,7 +24,8 @@ namespace Kralt
         {
             player = new KraltPlayerController()
             {
-                position = Vector3.up * 2f
+                position = new(1.5f, 1f, 1.5f),
+                localRotation = Quaternion.Euler(0f, -155.623f, 0f)
             };
 
             outputCamera = player[0] as Camera;
@@ -31,15 +33,49 @@ namespace Kralt
             Transformable kraltObjectContainer = new() {
                 new KraltObject(new()
                 {
-                    new(0, 0, 0),
-                    new(1, 0, 0),
-                    new(1, 0, 1),
-                    new(0, 0, 1),
-                    new(-1, 0, 1),
-                    new(-1, 0, 0),
-                    new(-1, 0, -1),
-                    new(0, 0, -1),
-                    new(1, 0, -1),
+                    // Top right
+                    new Vector3Int(0, 0, 0),
+                    new Vector3Int(1, 0, 0),
+                    new Vector3Int(1, 0, 1),
+                    new Vector3Int(0, 0, 1),
+                    new Vector3Int(-1, 0, 1),
+                    new Vector3Int(-1, 0, 0),
+                    new Vector3Int(-1, 0, -1),
+                    new Vector3Int(0, 0, -1),
+                    new Vector3Int(1, 0, -1),
+
+                    // Top left
+                    new Vector3Int(0, 0, 0) + new Vector3Int(3, 0, 0),
+                    new Vector3Int(1, 0, 0) + new Vector3Int(3, 0, 0),
+                    new Vector3Int(1, 0, 1) + new Vector3Int(3, 0, 0),
+                    new Vector3Int(0, 0, 1) + new Vector3Int(3, 0, 0),
+                    new Vector3Int(-1, 0, 1) + new Vector3Int(3, 0, 0),
+                    new Vector3Int(-1, 0, 0) + new Vector3Int(3, 0, 0),
+                    new Vector3Int(-1, 0, -1) + new Vector3Int(3, 0, 0),
+                    new Vector3Int(0, 0, -1) + new Vector3Int(3, 0, 0),
+                    new Vector3Int(1, 0, -1) + new Vector3Int(3, 0, 0),
+
+                    // Bottom right
+                    new Vector3Int(0, 0, 0) + new Vector3Int(0, 0, 3),
+                    new Vector3Int(1, 0, 0) + new Vector3Int(0, 0, 3),
+                    new Vector3Int(1, 0, 1) + new Vector3Int(0, 0, 3),
+                    new Vector3Int(0, 0, 1) + new Vector3Int(0, 0, 3),
+                    new Vector3Int(-1, 0, 1) + new Vector3Int(0, 0, 3),
+                    new Vector3Int(-1, 0, 0) + new Vector3Int(0, 0, 3),
+                    new Vector3Int(-1, 0, -1) + new Vector3Int(0, 0, 3),
+                    new Vector3Int(0, 0, -1) + new Vector3Int(0, 0, 3),
+                    new Vector3Int(1, 0, -1) + new Vector3Int(0, 0, 3),
+
+                    // Bottom left
+                    new Vector3Int(0, 0, 0) + new Vector3Int(3, 0, 3),
+                    new Vector3Int(1, 0, 0) + new Vector3Int(3, 0, 3),
+                    new Vector3Int(1, 0, 1) + new Vector3Int(3, 0, 3),
+                    new Vector3Int(0, 0, 1) + new Vector3Int(3, 0, 3),
+                    new Vector3Int(-1, 0, 1) + new Vector3Int(3, 0, 3),
+                    new Vector3Int(-1, 0, 0) + new Vector3Int(3, 0, 3),
+                    new Vector3Int(-1, 0, -1) + new Vector3Int(3, 0, 3),
+                    new Vector3Int(0, 0, -1) + new Vector3Int(3, 0, 3),
+                    new Vector3Int(1, 0, -1) + new Vector3Int(3, 0, 3),
                 })
             };
 
