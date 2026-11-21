@@ -51,7 +51,7 @@ public abstract class Application(string title, int width, int height) :
     private void InitializeGraphics()
     {
         GL.Viewport(0, 0, FramebufferSize.X, FramebufferSize.Y);
-        GL.ClearColor(Color.black);
+        GL.ClearColor(0.4667f, 0.7843f, 0.8863f, 1.0f);
         GL.Enable(EnableCap.DepthTest);
         GL.Enable(EnableCap.CullFace);
     }

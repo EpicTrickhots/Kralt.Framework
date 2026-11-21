@@ -13,13 +13,17 @@ internal class KraltPlayerController : Transformable
 
     private const float MOUSE_SENS_Y = .002f;
 
-    private const float MOVE_SPEED = 10f;
+    private const float MOVE_SPEED = 20f;
 
     private const float BOUNDS_RADIUS = 0.5f;
 
     private const float BOUNDS_HEIGHT = 2f;
 
-    private const float GRAVITY_MUL = -9.81f;
+    // Slope limit = 45 degf
+
+    private const float GRAVITY = -9.8f;
+
+    private const float GRAVITY_MUL = 2f;
 
     private const float JUMP_FORCE = 10f;
 
@@ -77,8 +81,6 @@ internal class KraltPlayerController : Transformable
 
     private void HandleJump()
     {
-        Console.WriteLine(isGrounded);
-
         if (Input.GetKeyDown(Key.Space) && isGrounded)
         {
             verticalVelocity = JUMP_FORCE;
@@ -165,7 +167,7 @@ internal class KraltPlayerController : Transformable
 
     private void HandleGravity()
     {
-        verticalVelocity += GRAVITY_MUL * Time.deltaTime;
+        verticalVelocity += GRAVITY * Time.deltaTime * GRAVITY_MUL;
 
         CollisionFlags flags = Move(Vector3.up * verticalVelocity * Time.deltaTime);
 
