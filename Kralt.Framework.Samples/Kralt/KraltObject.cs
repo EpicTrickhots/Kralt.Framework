@@ -53,9 +53,11 @@ namespace Kralt
                 // If zero of the faces for this voxel get rendered, we can skip collision generation
                 if(numFacesRendered != 0)
                 {
-                    // Generate AABB collision for this voxel
-                    Vector3 min = new(block.x - 0.5f, block.y - 0.5f, block.z - 0.5f);
-                    Vector3 max = new(block.x + 0.5f, block.y + 0.5f, block.z + 0.5f);
+                    // Generate world-space AABB collision for this voxel
+                    Vector3 w = position + block;
+
+                    Vector3 min = new(w.x - 0.5f, w.y - 0.5f, w.z - 0.5f);
+                    Vector3 max = new(w.x + 0.5f, w.y + 0.5f, w.z + 0.5f);
 
                     AABB voxelAABB = new(min, max);
                     collisionAABB.Add(voxelAABB);
@@ -76,48 +78,12 @@ namespace Kralt
 
         private static readonly FaceData[] faces =
         [
-            new(Vector3Int.right,
-            [
-                new Vertex(0.5f, -0.5f, -0.5f, 1f, 0f),
-                new Vertex(0.5f, 0.5f, -0.5f, 1f, 1f),
-                new Vertex(0.5f, 0.5f, 0.5f, 0f, 1f),
-                new Vertex(0.5f, -0.5f, 0.5f, 0f, 0f)
-            ]),
-            new(-Vector3Int.right,
-            [
-                new Vertex(-0.5f, -0.5f, 0.5f, 1f, 0f),
-                new Vertex(-0.5f, 0.5f, 0.5f, 1f, 1f),
-                new Vertex(-0.5f, 0.5f, -0.5f, 0f, 1f),
-                new Vertex(-0.5f, -0.5f, -0.5f, 0f, 0f)
-            ]),
-            new(Vector3Int.up,
-            [
-                new Vertex(-0.5f, 0.5f, 0.5f, 1f, 0f),
-                new Vertex(0.5f, 0.5f, 0.5f, 1f, 1f),
-                new Vertex(0.5f, 0.5f, -0.5f, 0f, 1f),
-                new Vertex(-0.5f, 0.5f, -0.5f, 0f, 0f)
-            ]),
-            new(-Vector3Int.up,
-            [
-                new Vertex(-0.5f, -0.5f, -0.5f, 1f, 0f),
-                new Vertex(0.5f, -0.5f, -0.5f, 1f, 1f),
-                new Vertex(0.5f, -0.5f, 0.5f, 0f, 1f),
-                new Vertex(-0.5f, -0.5f, 0.5f, 0f, 0f)
-            ]),
-            new(Vector3Int.forward,
-            [
-                new Vertex(0.5f, -0.5f, 0.5f, 1f, 0f),
-                new Vertex(0.5f, 0.5f, 0.5f, 1f, 1f),
-                new Vertex(-0.5f, 0.5f, 0.5f, 0f, 1f),
-                new Vertex(-0.5f, -0.5f, 0.5f, 0f, 0f)
-            ]),
-            new(-Vector3Int.forward,
-            [
-                new Vertex(-0.5f, -0.5f, -0.5f, 1f, 0f),
-                new Vertex(-0.5f, 0.5f, -0.5f, 1f, 1f),
-                new Vertex(0.5f, 0.5f, -0.5f, 0f, 1f),
-                new Vertex(0.5f, -0.5f, -0.5f, 0f, 0f)
-            ])
+            new(Vector3Int.right, [ new(0.5f, -0.5f, -0.5f, 1f, 0f), new(0.5f, 0.5f, -0.5f, 1f, 1f), new(0.5f, 0.5f, 0.5f, 0f, 1f), new(0.5f, -0.5f, 0.5f, 0f, 0f) ]),
+            new(-Vector3Int.right, [ new(-0.5f, -0.5f, 0.5f, 1f, 0f), new(-0.5f, 0.5f, 0.5f, 1f, 1f), new(-0.5f, 0.5f, -0.5f, 0f, 1f), new(-0.5f, -0.5f, -0.5f, 0f, 0f) ]),
+            new(Vector3Int.up, [ new(-0.5f, 0.5f, 0.5f, 1f, 0f), new(0.5f, 0.5f, 0.5f, 1f, 1f), new(0.5f, 0.5f, -0.5f, 0f, 1f), new(-0.5f, 0.5f, -0.5f, 0f, 0f) ]),
+            new(-Vector3Int.up, [ new(-0.5f, -0.5f, -0.5f, 1f, 0f), new(0.5f, -0.5f, -0.5f, 1f, 1f), new(0.5f, -0.5f, 0.5f, 0f, 1f), new(-0.5f, -0.5f, 0.5f, 0f, 0f) ]),
+            new(Vector3Int.forward, [ new(0.5f, -0.5f, 0.5f, 1f, 0f), new(0.5f, 0.5f, 0.5f, 1f, 1f), new(-0.5f, 0.5f, 0.5f, 0f, 1f), new(-0.5f, -0.5f, 0.5f, 0f, 0f) ]),
+            new(-Vector3Int.forward, [ new(-0.5f, -0.5f, -0.5f, 1f, 0f), new(-0.5f, 0.5f, -0.5f, 1f, 1f), new(0.5f, 0.5f, -0.5f, 0f, 1f), new(0.5f, -0.5f, -0.5f, 0f, 0f) ])
         ];
 
         public readonly struct FaceData(Vector3Int direction, Vertex[] vertices)

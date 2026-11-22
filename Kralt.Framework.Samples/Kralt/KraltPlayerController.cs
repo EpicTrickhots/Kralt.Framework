@@ -1,16 +1,17 @@
-﻿using System;
-using Kralt.Framework.Graphics;
+﻿using Kralt.Framework.Graphics;
 using Kralt.Framework.InputHandling;
 using Kralt.Framework.Physics;
 using Kralt.Framework.Runtime;
 using Kralt.Mathematics;
+using System;
+using System.Diagnostics;
 
 
 namespace Kralt;
 
 internal class KraltPlayerController : Transformable
 {
-    private readonly bool isDebug = true;
+    private bool debug { get; }
 
     private const float MOUSE_SENS_X = .002f;
 
@@ -36,13 +37,12 @@ internal class KraltPlayerController : Transformable
 
     internal float verticalVelocity { get; private set; }
 
-    private AABB PlayerBounds
+    private AABB playerBounds
     {
         get
         {
-            Vector3 min = localPosition + new Vector3(-BOUNDS_RADIUS, 0f, -BOUNDS_RADIUS);
-            Vector3 max = localPosition + new Vector3(BOUNDS_RADIUS, BOUNDS_HEIGHT, BOUNDS_RADIUS);
-
+            Vector3 min = position + new Vector3(-BOUNDS_RADIUS, 0f, -BOUNDS_RADIUS);
+            Vector3 max = position + new Vector3(BOUNDS_RADIUS, BOUNDS_HEIGHT, BOUNDS_RADIUS);
             return new AABB(min, max);
         }
     }
@@ -53,8 +53,10 @@ internal class KraltPlayerController : Transformable
     private Camera camera;
     public Transformable? collisionObjects;
 
-    public KraltPlayerController()
+    public KraltPlayerController(bool debug = false)
     {
+        this.debug = debug;
+
         camera = new Camera()
         {
             localPosition = Vector3.up * 1.8f
@@ -68,7 +70,7 @@ internal class KraltPlayerController : Transformable
 
     public override void Update()
     {
-        if (isDebug)
+        if (debug)
         {
             HandleDebugMovement();
             HandleMouseLook();
@@ -79,6 +81,12 @@ internal class KraltPlayerController : Transformable
         HandleJump();
         HandleMouseLook();
         HandleGravity();
+
+        if (Input.GetKeyDown(Key.E))
+        {
+            position = Vector3.up;
+            verticalVelocity = 1f;
+        }
     }
 
     private void HandleMovement()
@@ -148,7 +156,7 @@ internal class KraltPlayerController : Transformable
 
         localPosition += movement;
 
-        AABB playerBounds = PlayerBounds;
+        AABB bounds = playerBounds;
 
         foreach (Transformable t in collisionObjects)
         {
@@ -157,32 +165,34 @@ internal class KraltPlayerController : Transformable
 
             foreach (AABB collision in kr.collisionAABB)
             {
-                if (!playerBounds.Intersects(collision))
+                if (!bounds.Intersects(collision))
                     continue;
+
+                Console.WriteLine(bounds);
 
                 switch (axis)
                 {
                     case Axis.X:
-                    localPosition.x = amt > 0f ?
-                        collision.min.x - BOUNDS_RADIUS :
-                        collision.max.x + BOUNDS_RADIUS;
+                    localPosition.x = amt > 0f
+                        ? collision.min.x - BOUNDS_RADIUS
+                        : collision.max.x + BOUNDS_RADIUS;
                     return CollisionFlags.Sides;
 
                     case Axis.Y:
-                    localPosition.y = amt > 0f ?
-                        collision.min.y - BOUNDS_HEIGHT :
-                        collision.max.y;
+                    localPosition.y = amt > 0f
+                        ? collision.min.y - BOUNDS_HEIGHT
+                        : collision.max.y;
                     return amt > 0f ? CollisionFlags.Above : CollisionFlags.Below;
 
                     case Axis.Z:
-                    localPosition.z = amt > 0f ?
-                        collision.min.z - BOUNDS_RADIUS :
-                        collision.max.z + BOUNDS_RADIUS;
+                    localPosition.z = amt > 0f
+                        ? collision.min.z - BOUNDS_RADIUS
+                        : collision.max.z + BOUNDS_RADIUS;
                     return CollisionFlags.Sides;
                 }
             }
 
-            playerBounds = PlayerBounds;
+            bounds = playerBounds;
         }
 
         return CollisionFlags.None;

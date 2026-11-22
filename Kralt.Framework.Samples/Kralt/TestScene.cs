@@ -24,7 +24,7 @@ namespace Kralt
         {
             player = new KraltPlayerController()
             {
-                position = new(1.5f, 1f, 1.5f),
+                position = Vector3.up,
                 localRotation = Quaternion.Euler(0f, -155.623f, 0f)
             };
 
@@ -43,40 +43,23 @@ namespace Kralt
                     new Vector3Int(-1, 0, -1),
                     new Vector3Int(0, 0, -1),
                     new Vector3Int(1, 0, -1),
-
-                    // Top left
-                    new Vector3Int(0, 0, 0) + new Vector3Int(3, 0, 0),
-                    new Vector3Int(1, 0, 0) + new Vector3Int(3, 0, 0),
-                    new Vector3Int(1, 0, 1) + new Vector3Int(3, 0, 0),
-                    new Vector3Int(0, 0, 1) + new Vector3Int(3, 0, 0),
-                    new Vector3Int(-1, 0, 1) + new Vector3Int(3, 0, 0),
-                    new Vector3Int(-1, 0, 0) + new Vector3Int(3, 0, 0),
-                    new Vector3Int(-1, 0, -1) + new Vector3Int(3, 0, 0),
-                    new Vector3Int(0, 0, -1) + new Vector3Int(3, 0, 0),
-                    new Vector3Int(1, 0, -1) + new Vector3Int(3, 0, 0),
-
-                    // Bottom right
-                    new Vector3Int(0, 0, 0) + new Vector3Int(0, 0, 3),
-                    new Vector3Int(1, 0, 0) + new Vector3Int(0, 0, 3),
-                    new Vector3Int(1, 0, 1) + new Vector3Int(0, 0, 3),
-                    new Vector3Int(0, 0, 1) + new Vector3Int(0, 0, 3),
-                    new Vector3Int(-1, 0, 1) + new Vector3Int(0, 0, 3),
-                    new Vector3Int(-1, 0, 0) + new Vector3Int(0, 0, 3),
-                    new Vector3Int(-1, 0, -1) + new Vector3Int(0, 0, 3),
-                    new Vector3Int(0, 0, -1) + new Vector3Int(0, 0, 3),
-                    new Vector3Int(1, 0, -1) + new Vector3Int(0, 0, 3),
-
-                    // Bottom left
-                    new Vector3Int(0, 0, 0) + new Vector3Int(3, 0, 3),
-                    new Vector3Int(1, 0, 0) + new Vector3Int(3, 0, 3),
-                    new Vector3Int(1, 0, 1) + new Vector3Int(3, 0, 3),
-                    new Vector3Int(0, 0, 1) + new Vector3Int(3, 0, 3),
-                    new Vector3Int(-1, 0, 1) + new Vector3Int(3, 0, 3),
-                    new Vector3Int(-1, 0, 0) + new Vector3Int(3, 0, 3),
-                    new Vector3Int(-1, 0, -1) + new Vector3Int(3, 0, 3),
-                    new Vector3Int(0, 0, -1) + new Vector3Int(3, 0, 3),
-                    new Vector3Int(1, 0, -1) + new Vector3Int(3, 0, 3),
+                }),
+                new KraltObject(new()
+                {
+                    // Top right
+                    new Vector3Int(0, 0, 0),
+                    new Vector3Int(1, 0, 0),
+                    new Vector3Int(1, 0, 1),
+                    new Vector3Int(0, 0, 1),
+                    new Vector3Int(-1, 0, 1),
+                    new Vector3Int(-1, 0, 0),
+                    new Vector3Int(-1, 0, -1),
+                    new Vector3Int(0, 0, -1),
+                    new Vector3Int(1, 0, -1),
                 })
+                {
+                    position = new(10f, 0f, 0f)
+                },
             };
 
             player.collisionObjects = kraltObjectContainer;
