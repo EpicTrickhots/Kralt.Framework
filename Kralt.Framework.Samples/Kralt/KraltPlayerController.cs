@@ -1,10 +1,10 @@
-﻿using Kralt.Framework.Graphics;
+﻿using System;
+using System.Diagnostics;
+using Kralt.Framework.Graphics;
 using Kralt.Framework.InputHandling;
 using Kralt.Framework.Physics;
 using Kralt.Framework.Runtime;
 using Kralt.Mathematics;
-using System;
-using System.Diagnostics;
 
 
 namespace Kralt;
@@ -57,10 +57,7 @@ internal class KraltPlayerController : Transformable
     {
         this.debug = debug;
 
-        camera = new Camera()
-        {
-            localPosition = Vector3.up * 1.8f
-        };
+        camera = new Camera() { localPosition = Vector3.up * 1.8f };
 
         Add(camera);
 

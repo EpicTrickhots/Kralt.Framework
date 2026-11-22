@@ -18,6 +18,11 @@ namespace Kralt
         private readonly List<Vertex> vertices = [];
         private readonly List<uint> indices = [];
 
+        public KraltObject(Vector3 position, HashSet<Vector3Int> points) : this(points)
+        {
+            localPosition = position;
+        }
+
         public KraltObject(HashSet<Vector3Int> points)
         {
             this.points = points;
@@ -28,7 +33,8 @@ namespace Kralt
 
                 foreach (FaceData face in faces)
                 {
-                    if (points.Contains(block + face.Direction)) // Block exists on this side, skip the face
+                    // Block exists on this side, skip the face
+                    if (points.Contains(block + face.Direction))
                         continue;
 
                     uint start = (uint)vertices.Count;
@@ -55,7 +61,6 @@ namespace Kralt
                 {
                     // Generate world-space AABB collision for this voxel
                     Vector3 w = position + block;
-
                     Vector3 min = new(w.x - 0.5f, w.y - 0.5f, w.z - 0.5f);
                     Vector3 max = new(w.x + 0.5f, w.y + 0.5f, w.z + 0.5f);
 
