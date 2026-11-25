@@ -12,7 +12,13 @@ using Kralt.Mathematics;
 namespace Kralt.Framework;
 
 public abstract class Application(string title, int width, int height) : 
-    GameWindow(GameWindowSettings.Default, new NativeWindowSettings() { ClientSize = (width, height), Title = title, Vsync = VSyncMode.On })
+    GameWindow(GameWindowSettings.Default, new NativeWindowSettings() 
+    {
+        ClientSize = (width, height),
+        Title = title,
+        Vsync = VSyncMode.On,
+        NumberOfSamples = 4
+    })
 {
     public Scene? activeScene { get; protected set; }
 
@@ -22,10 +28,19 @@ public abstract class Application(string title, int width, int height) :
 
     #region Application life cycle
 
+    /// <summary>
+    /// Use this for initialization. No need to call base.Start()
+    /// </summary>
     protected virtual void Start() { }
 
+    /// <summary>
+    /// This method is called once per frame. No need to call base.Update()
+    /// </summary>
     protected virtual void Update() { }
 
+    /// <summary>
+    /// Generate the application's <see cref="Resources"/> in this method
+    /// </summary>
     protected virtual void GenerateApplicationResources() { }
 
     #endregion
@@ -39,10 +54,9 @@ public abstract class Application(string title, int width, int height) :
         InitializeGraphics();
         InitializeResources();
         InitializeHelperClasses();
-        GenerateApplicationResources();
         UpdateViewportAspect();
 
-        UIRenderer.Initialize();
+        // UIRenderer.Initialize();
 
         Start();
         InitializeActiveScene();
@@ -54,6 +68,7 @@ public abstract class Application(string title, int width, int height) :
         GL.ClearColor(0.4667f, 0.7843f, 0.8863f, 1.0f);
         GL.Enable(EnableCap.DepthTest);
         GL.Enable(EnableCap.CullFace);
+        GL.Enable(EnableCap.Multisample);
     }
 
     private void InitializeResources()
@@ -75,6 +90,8 @@ public abstract class Application(string title, int width, int height) :
         Resources.materials.Add(
             "ui-default", 
             new(Resources.shaders["ui-default"]));
+
+        GenerateApplicationResources();
     }
 
     private void InitializeHelperClasses()
@@ -135,7 +152,7 @@ public abstract class Application(string title, int width, int height) :
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
         DrawScene();
-        DrawUI();
+        // DrawUI();
         SwapBuffers();
     }
 

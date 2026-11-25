@@ -51,7 +51,6 @@ public static class UIRenderer
         GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
         // POSITION
-        
         GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, stride, 0);
         GL.EnableVertexAttribArray(0);
 

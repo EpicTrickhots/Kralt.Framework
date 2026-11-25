@@ -12,21 +12,27 @@ namespace Kralt
         private HashSet<Vector3Int> points = [];
         public HashSet<AABB> collisionAABB = [];
 
-        private readonly Mesh mesh;
-        private readonly Material material;
+        private Mesh mesh;
+        private Material material;
 
         private readonly List<Vertex> vertices = [];
         private readonly List<uint> indices = [];
 
-        public KraltObject(Vector3 position, HashSet<Vector3Int> points) : this(points)
+        public KraltObject(Vector3 position, HashSet<Vector3Int> points)
         {
+            this.points = points;
             localPosition = position;
+            BuildMesh();
         }
 
         public KraltObject(HashSet<Vector3Int> points)
         {
             this.points = points;
+            BuildMesh();
+        }
 
+        private void BuildMesh()
+        {
             foreach (Vector3Int block in points)
             {
                 int numFacesRendered = 0;
@@ -57,7 +63,7 @@ namespace Kralt
                 }
 
                 // If zero of the faces for this voxel get rendered, we can skip collision generation
-                if(numFacesRendered != 0)
+                if (numFacesRendered != 0)
                 {
                     // Generate world-space AABB collision for this voxel
                     Vector3 w = position + block;

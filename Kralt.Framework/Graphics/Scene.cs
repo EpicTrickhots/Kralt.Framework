@@ -11,21 +11,15 @@ namespace Kralt.Framework.Graphics
         internal void Start_Internal()
         {
             Start();
-
             foreach (Transformable g in hierarchy)
-            {
-                g.Start();
-            }
+                g.Start_Internal();
         }
 
         internal void Update_Internal()
         {
             Update();
-
             foreach (Transformable g in hierarchy)
-            {
-                g.Update();
-            }
+                g.Update_Internal();
         }
 
         public void Add(Transformable g)

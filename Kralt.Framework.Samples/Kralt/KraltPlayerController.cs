@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using Kralt.Framework.Graphics;
+﻿using Kralt.Framework.Graphics;
 using Kralt.Framework.InputHandling;
 using Kralt.Framework.Physics;
 using Kralt.Framework.Runtime;
@@ -81,7 +79,7 @@ internal class KraltPlayerController : Transformable
 
         if (Input.GetKeyDown(Key.E))
         {
-            position = Vector3.up;
+            position = new(2.5f, 1f, 2.5f);
             verticalVelocity = 1f;
         }
     }
@@ -164,8 +162,6 @@ internal class KraltPlayerController : Transformable
             {
                 if (!bounds.Intersects(collision))
                     continue;
-
-                Console.WriteLine(bounds);
 
                 switch (axis)
                 {
